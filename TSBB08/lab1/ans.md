@@ -19,20 +19,17 @@ is between 0 and 255.
 `mycolormapR` maps all the 56 brightest values to red (1.0, 0, 0).
 The brightest parts of the left image therefore become red.
 
+# 5
+Blue and greenish blue.
+
 # 11
 
 |     |     |     |     |     |
-| --- | --- | --- | --- | --- |
 |  1  |  4  |  4  |  0  |  0  |
-| --- | --- | --- | --- | --- |
 |  1  |  7  | 10  |  0  |  0  |
-| --- | --- | --- | --- | --- |
 |  1  |  9  | 20  |  8  |  0  |
-| --- | --- | --- | --- | --- |
 |  0  |  3  | 14  | 11  |  0  |
-| --- | --- | --- | --- | --- |
 |  0  |  1  |  7  | 13  |  3  |
-| --- | --- | --- | --- | --- |
 
 # 12
 
