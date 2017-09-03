@@ -20,16 +20,50 @@ is between 0 and 255.
 The brightest parts of the left image therefore become red.
 
 # 5
-Blue and greenish blue.
+
+Blue and greenish blue
+
+# 6
+
+The fine details, edges and lines are blurred out.
+
+# 7
+
+The values outside the image are treated as zero, but the extra size gained from
+convolving with the outside is thrown away, so the image stays the same size.
+
+# 8
+
+The filtering effect becomes stronger (more blur).
+
+# 9
+
+The convolution is a weighted average, where the sum of the values in the filter is 16.
+To achieve an average we must therefore divide by 16, to preserve the brightness.
+If this factor is decreased, the image brightness increases.
+
+# 10
+
+`full` means treating outside values as zeros, and keeping the values obtained from
+convolving with part of the outside. With this option the image size increases.
+
+`valid` means never convolving outside the image. This decreases the image size.
 
 # 11
 
-|     |     |     |     |     |
+```
+-------------------------------
 |  1  |  4  |  4  |  0  |  0  |
+-------------------------------
 |  1  |  7  | 10  |  0  |  0  |
+-------------------------------
 |  1  |  9  | 20  |  8  |  0  |
+-------------------------------
 |  0  |  3  | 14  | 11  |  0  |
+-------------------------------
 |  0  |  1  |  7  | 13  |  3  |
+-------------------------------
+```
 
 # 12
 
