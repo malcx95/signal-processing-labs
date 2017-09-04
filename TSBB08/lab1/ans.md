@@ -79,6 +79,21 @@ imag(IM): Odd
 For any real constants a, b, and any 2D signal x(u, v), if x(u, v) has the amplitude
 spectrum |X(u, v)|, then x(u - a, v - a) also has the spectrum |X(u, v)|.
 
+# 14
+
+Only the abs() has not changed. This is consistent with the translation
+theorem, which predicts that only the phase spectrum changes. Since
+the phase spectrum changes, but not the amplitude spectrum, the
+real an imaginary parts of the fourier transform is changed.
+
+# 15
+
+X: 62, Y: 62, value: 5679
+
+# 16
+
+Sum is 5679, which matches with question 15.
+
 # 17
 
 7x7
