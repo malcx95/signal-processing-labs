@@ -98,5 +98,76 @@ Sum is 5679, which matches with question 15.
 
 7x7
 
+# 18
+
+The correct value is 0.0977, and that is what we see in the image.
+
 # 19
+
+Convolution of 2D-signals corresponds to a multiplication of the signals'
+fourier transforms.
+
+# 20
+
+You can clearly see that each value of the amplitude spectrums of `im` and 
+`aver3im` are multiplied with eachother to create the spectrum of `imconv`.
+Where the spectrum of `aver3im` is dark, the result is dark.
+
+# 21
+
+low, high, high
+
+# 22
+
+Since it's the derivative we have (approximately) calculated in a specific direction,
+it will get bright when we go from dark to bright (outside to inside the circle).
+The opposite happens when we exits the circle, we go from bright to dark, which results 
+in a negative derivative, which means darker edge. The grayer parts of the edge are
+caused by the direction of the derivative having a less sharp angle with respect to
+the circle.
+
+# 23
+
+`sqrt((df(x,y)/dx)^2 + (df(x,y)/dx)^2)`
+
+# 24
+
+[1 -1] * [1 -1] = [1 -2 1]
+[-1; 1] * [-1; 1] = [1; -2; 1]
+
+# 25
+
+Yes, we see a dark ring inside the bright ring, which corresponds to the plot
+of f''(x), which goes down and then up around the edges of the 'rect'-like f(x).
+
+# 26
+
+The contrast increases.
+
+# 27
+
+Details in these regions become more clear.
+
+# 28
+
+`imsharp` becomes sharper (more detail is visible) than the original image, 
+and `imsharp2` becomes even sharper than that.
+
+# 29
+
+The dark frame comes from the fact that we wanted an image with the same resolution
+after the convolution as before. This meant that we needed to include some of the
+zeros on the outside of the image in our averaging, which results in darker pixels.
+
+The effect on the spectrum is a star.
+
+# 30
+
+Both images are similarly blurred, but the new image lacks the darker border. The
+amplitude spectrum of the new image looks more like a multiplication of the original
+image's transform and the transform of the kernel, since the star effect is no longer there.
+
+# 31
+
+You can se small rings in the image.
 
