@@ -13,4 +13,4 @@ for xg = 1:cols
       shearIm(yg,xg) = Im(yf,xf);	
     end
   end
-end       
+end
