@@ -21,3 +21,14 @@ Therefore, we need the inverse of __T__.
 
 The top of the image.
 
+# 3
+
+```matlab
+xyff = inv(T)*[xg - cx;yg - cy] + [cx; cy];
+```
+
+That is, shifting the coordinates, transforming
+them, and then shifting them back.
+
+# 4
+
