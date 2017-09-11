@@ -32,3 +32,21 @@ them, and then shifting them back.
 
 # 4
 
+Yes, shearImageFast was 40 times faster.
+
+# 5
+
+```
+|xg - xt|   | cos(theta) sin(theta)||x + xt| 
+|yg - yt| = |-sin(theta) cos(theta)||y + yt|
+
+```
+
+# 6
+
+```
+xg = round(xf)
+yg = round(yf)
+
+```
+
