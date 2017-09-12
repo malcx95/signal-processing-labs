@@ -7,7 +7,7 @@ N = min(min(Nx,Ny));
 mask = (x.^2 + y.^2)<((N-1)/2)^2;
 Im = Im.* mask;
 
-figure(1); colormap gray;
+figure(2); colormap gray;
 rotatedIm = rotateimage(Im, pi / 6, 'bilinear');
 nIm = rotateimage(rotatedIm, -pi / 6, 'bilinear');
 subplot(331); imagesc(Im); title('Im'); axis image; colorbar;

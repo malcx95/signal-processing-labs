@@ -119,7 +119,21 @@ The error energy is now about 129, which is less than 134.
 
 # 20
 
-Because the bilinear interpolation is essentially a weighted average filter,
-which blurs the image and removes detail, which can be seen in the fourier
-domain as attenuated high frequencies.
+Because the bilinear interpolation is essentially a weighted average filter 
+(low-pass filter), which blurs the image and removes detail, which can be 
+seen in the fourier domain as attenuated high frequencies.
+
+# 21
+
+The fourier transform of the kernel used in the nearest neighbor convolution
+is a sinc, which does not correspond to any low pass filtering.
+
+# 22
+
+The errors are even more concentrated in the higher frequencies compared to
+nearest-neighbor.
+
+# 23
+
+
 
