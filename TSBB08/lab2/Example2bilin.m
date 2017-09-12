@@ -8,8 +8,8 @@ mask = (x.^2 + y.^2)<((N-1)/2)^2;
 Im = Im.* mask;
 
 figure(1); colormap gray;
-rotatedIm = rotateimage(Im, pi / 6, 'nearest');
-nIm = rotateimage(rotatedIm, -pi / 6, 'nearest');
+rotatedIm = rotateimage(Im, pi / 6, 'bilinear');
+nIm = rotateimage(rotatedIm, -pi / 6, 'bilinear');
 subplot(331); imagesc(Im); title('Im'); axis image; colorbar;
 subplot(332); imagesc(rotatedIm); title('RotatedIm'); axis image; colorbar;
 subplot(333); imagesc(nIm); title('nIm'); axis image; colorbar;
