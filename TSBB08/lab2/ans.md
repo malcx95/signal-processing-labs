@@ -135,5 +135,32 @@ nearest-neighbor.
 
 # 23
 
+```
+xf = floor(xff);
+yf = floor(yff);
+xe = xff - xf;
+ye = yff - yf;
+
+g(yg, xg) = f(yf, xf) * h(ye) * h(xe) + 
+        f(yf, xf + 1) * h(ye) * h(1 - xe) + 
+        f(yf + 1, xf) * h(1 - ye) * h(xe) + 
+        f(yf + 1, xf + 1) * h(1 - ye) * h(1 - xe);
+```
+
+# 24
+
+The difference image once again looks like the contours from the original image, since
+that is where the errors are located.
+
+# 25
+
+The energy is approximately 9.4, which is less than the two others.
+
+# 26
+
+The errors are even more in the higher frequencies.
+
+# 27
+
 
 

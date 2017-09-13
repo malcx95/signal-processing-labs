@@ -35,12 +35,31 @@ switch intpol
                     xe = xff - xf;
                     ye = yff - yf;
 
-                    RotateIm(yg, xg) = Im(yf, xf) * (1 - xe) * (1 - ye) + Im(yf, xf + 1) * xe * (1 - ye) + Im(yf + 1, xf) * (1 - xe) * ye + Im(yf + 1, xf + 1) * xe * ye;
+                    RotateIm(yg, xg) = Im(yf, xf) * (1 - xe) * (1 - ye) ...
+                                        + Im(yf, xf + 1) * xe * (1 - ye) ...
+                                        + Im(yf + 1, xf) * (1 - xe) * ye ...
+                                        + Im(yf + 1, xf + 1) * xe * ye;
                 end
             end
         end
     case 'bicubic'
-     % rotation code with bicubic interpolation
+        for xg = 1:cols	
+            for yg = 1:rows
+                xyff = inv(T)*[xg - cx;yg - cy] + [cx; cy];
+                xff  = xyff(1);
+                yff  = xyff(2);
+                if (xff <=cols & yff <=rows & xff>=1 & yff>=1)
+                    xf = floor(xff);
+                    yf = floor(yff);
+                    xe = xff - xf;
+                    ye = yff - yf;
+                    RotateIm(yg, xg) = Im(yf, xf) * h4(ye) * h4(xe) + ...
+                                Im(yf, xf + 1) * h4(ye) * h4(1 - xe) + ...
+                                Im(yf + 1, xf) * h4(1 - ye) * h4(xe) + ...
+                                Im(yf + 1, xf + 1) * h4(1 - ye) * h4(1 - xe);
+                end
+            end
+        end
     otherwise
          error('Unknown interpolation method');
 end
