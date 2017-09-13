@@ -44,7 +44,7 @@ Yes, shearImageFast was 40 times faster.
 
 # 6
 
-```
+```matlab
 xg = round(xf)
 yg = round(yf)
 
@@ -97,7 +97,7 @@ The errors are mostly in the higher frequencies, which is to be expected.
 
 # 17
 
-```
+```matlab
 xf = floor(xff);
 yf = floor(yff);
 xe = xff - xf
@@ -135,7 +135,7 @@ nearest-neighbor.
 
 # 23
 
-```
+```matlab
 xf = floor(xff);
 yf = floor(yff);
 xe = xff - xf;
@@ -154,7 +154,7 @@ that is where the errors are located.
 
 # 25
 
-The energy is approximately 9.4, which is less than the two others.
+The energy is approximately 94, which is less than the two others.
 
 # 26
 
@@ -162,5 +162,35 @@ The errors are even more in the higher frequencies.
 
 # 27
 
+Because h is no longer positive for all inputs.
 
+# 28
+
+The errors are even less than from bicubic4, and still located around the 
+edges.
+
+# 29
+
+The energy is approximately 52, which is again lower than the others.
+
+# 30
+
+Again, the errors are even more distributed in the higher frequencies.
+
+# 31
+
+I'm content at least.
+
+# 32
+
+Yes, it's 134 here again.
+
+# 33
+
+You change the string 'nearest' to 'linear'. And yes, the energy is 
+again about 129.
+
+# 34
+
+You change the string to 'cubic'. And the energy is again about 52.
 
