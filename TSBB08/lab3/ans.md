@@ -23,9 +23,42 @@ to the left.
 
 # 5
 
-The values are pretty spread out.
+The values are not very spread out.
 
 # 6
 
+```
+0 = A * 50 - B
+200 = A * 200 - B
+=>
+A = 1.7, B = 85
+```
 
+# 7
+
+The values are more spread out in the higher contrast image.
+
+# 8
+
+Dilation involves expanding the edges of white elements in an image.
+Erosion means contracting these edges.
+
+# 9
+
+(see notes for sketches)
+
+d(oct) gives the most uniform dilation/erosion.
+
+# 10
+
+To remove cracks and holes we can perform Closing, meaning we dilate and then erode.
+To remove spurs and small branches, we can perform Opening, which is eroding and then dilating.
+
+# 11
+
+We can look in the histogram and see that we should threshold it right
+where there is a local minimum between the two large bumps. This will
+be close to using the least error method.
+
+We can see that we should threshold at about 132.
 
