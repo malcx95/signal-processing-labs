@@ -20,13 +20,14 @@ axis image; axis off; title('imdy image'); colorbar
 
 image_size = length(im);
 
-gradient = zeros(image_size, image_size);
-
-for i = 1:image_size
-    for j = 1:image_size
-        gradient(i, j) = sqrt(pow2(imdx(i, j)) + pow2(imdy(i, j)));
-    end
-end
+gradient = sqrt(imdx .^ 2 + imdy .^ 2);
+% gradient = zeros(image_size, image_size);
+% 
+% for i = 1:image_size
+%     for j = 1:image_size
+%         gradient(i, j) = sqrt(pow2(imdx(i, j)) + pow2(imdy(i, j)));
+%     end
+% end
 subplot(2,2,2), imagesc(gradient, [-128 127])
 axis image; axis off; title('magnitude of gradient image'); colorbar
 

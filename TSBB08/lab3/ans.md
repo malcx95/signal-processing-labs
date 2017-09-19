@@ -62,3 +62,11 @@ be close to using the least error method.
 
 We can see that we should threshold at about 132.
 
+# 12
+
+nuf0a was fixed using an erosion with d(8), and two dilations with d(8),
+and then doing the erosion once more. (closing + opening)
+
+nuf5 was fixed using several dilations with d(4), for example four times, 
+and then performing an equal number of erosions with d(4).
+
