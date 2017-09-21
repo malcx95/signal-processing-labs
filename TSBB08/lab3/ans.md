@@ -107,5 +107,17 @@ Yes, it looks the same.
 
 # 21
 
+I use thin2 with 8-connectivity 8 iterations.
+
+# 22
+
+The last one in each phase.
+
+# 23
+
+Yes
+
+# 24
+
 
 
