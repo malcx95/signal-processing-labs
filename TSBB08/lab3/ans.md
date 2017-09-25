@@ -63,7 +63,7 @@ We can see that we should threshold at about 132.
 
 # 12
 
-nuf0a was fixed using an erosion with d(8), and two dilations with d(8),
+nuf0a was fixed using three erosions with d(8), and four dilations with d(8),
 and then doing the erosion once more. (closing + opening)
 
 nuf5 was fixed using several dilations with d(4), for example four times, 
@@ -111,13 +111,79 @@ I use thin2 with 8-connectivity 8 iterations.
 
 # 22
 
-The last one in each phase.
+The three first columns can be removed.
 
 # 23
 
 Yes
 
 # 24
+
+I hope so.
+
+# 25
+
+One connector is too thin, and two connectors are too close to eachother.
+There is also some solder garbage on the board.
+
+# 26
+
+When checking for too narrow distances between connectors, the soldering contacts
+are incorrectly marked, since the holes causes the algorithm to think it's two
+connectors that are too close.
+
+# 27
+
+It got the labels 0-93.
+
+# 28
+
+0
+
+# 29
+
+It assigns the lower values to the objects with top-left corners close to 
+the top-left corner in the image, and the higher to the ones close to the 
+bottom right corner, which was expected.
+
+# 30
+
+(see notes)
+
+# 31
+
+(see notes)
+
+# 32
+
+(see notes)
+
+# 33
+
+I think so.
+
+# 34
+
+Endpoints: 78
+Ramifications: 44
+
+# 35
+
+Yes, using the default colormap, the furthest areas to the border are red.
+
+# 36
+
+Change bw from 0 to 1.
+
+# 37
+
+The skeleton is neither connected nor binary. (using bona.mat)
+
+# 38
+
+(see image on labyrinth 1)
+
+# 39
 
 
 
