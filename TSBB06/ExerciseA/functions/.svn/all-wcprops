@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/edu/!svn/ver/2921/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions
+END
+liu_preconditioning.m
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/liu_preconditioning.m
+END
+drawline.m
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/edu/!svn/ver/2921/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/drawline.m
+END
+vgg_get_nonhomg.m
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/vgg_get_nonhomg.m
+END
+map_points.m
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/map_points.m
+END
+image_resample.m
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/image_resample.m
+END
+vgg_get_homg.m
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/vgg_get_homg.m
+END
+linint.m
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/linint.m
+END
+liu_crossop.m
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/edu/!svn/ver/2779/TSBB06/2011-HT/compex/Matlab/ExerciseA/functions/liu_crossop.m
+END
