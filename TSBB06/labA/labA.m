@@ -25,7 +25,7 @@ end
 
 A0 = A(1:8, :);
 
-H1 = createhomography2(A0);
+H1 = createhomography2(A);
 
 y2b = vgg_get_nonhomg(H1*y1);
 y1b = vgg_get_nonhomg(inv(H1)*y2);
