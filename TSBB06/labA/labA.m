@@ -57,3 +57,26 @@ figure(2);plot(y2b(1,:),y2b(2,:),'bx');
 
 fprintf('Total geometric error e1: %d\n', geom_err(y1, y2, y1b2, y2b2));
 
+[y1tilde T1] = liu_preconditioning(y1);
+[y2tilde T2] = liu_preconditioning(y2);
+
+[w, ~] = size(y1tilde);
+
+meandist1 = 0
+meandist2 = 0
+
+for i = 1:w
+    dist1 = y1tilde(1, i)^2 + y1tilde(2, i)^2 + y1tilde(3, i)^2;
+    dist2 = y2tilde(1, i)^2 + y2tilde(2, i)^2 + y2tilde(3, i)^2;
+
+    meandist1 = meandist1 + sqrt(dist1);
+    meandist2 = meandist2 + sqrt(dist2);
+
+end
+
+meandist1 = meandist1 / w;
+meandist2 = meandist2 / w;
+
+fprintf('Mean dist for y1tilde: %d\n', meandist1);
+fprintf('Mean dist for y2tilde: %d\n', meandist2);
+
