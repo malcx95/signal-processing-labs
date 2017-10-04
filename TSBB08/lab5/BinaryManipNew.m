@@ -78,5 +78,9 @@ lfilter = [
 laplfiltim = conv2(im1r, lfilter);
 figure(9), imshow(laplfiltim, []);
 title('Laplace filtered padlocks');
-fprintf('Number of padlocks: %d\n', countpadlocks(laplfiltim));
+[num, maxpoints] = countpadlocks(laplfiltim);
+fprintf('Number of padlocks: %d\n', num);
+
+figure(10), imshow(maxpoints, []);
+title('Padlock points');
 

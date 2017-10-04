@@ -103,7 +103,7 @@ holesstruct = bwconncomp(holeMap, 8);
 
 % Compute watershed
 wShed = watershed_meyer(dMap, 8, holesstruct);
-figure(9), imshow(wShed, [], 'InitialMagnification', 'fit')
+figure(10), imshow(wShed, [], 'InitialMagnification', 'fit')
 colormap(jet), colorbar;
 title('Watershed of dMap (cytoplasm)');
 
