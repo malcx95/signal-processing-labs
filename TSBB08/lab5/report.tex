@@ -1,0 +1,147 @@
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{spverbatim}
+\usepackage{graphicx}
+\usepackage{icomma}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage[titletoc,toc,title]{appendix}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{%
+    aboveskip=3mm, belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{red},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
+
+\raggedbottom
+\sloppy
+
+\title{Report for Lab 5 -- TSBB08 \emph{Digital Image Processing}}
+
+\author{Malcolm Vigren \\ malvi108, 19950127--0970 }
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Loading image and separating channels}
+
+The first step was to load the original image (Figure \ref{fig:origim}).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/origim.jpg}
+    \caption{Original image}
+    \label{fig:origim}
+\end{figure}
+
+The red, green and blue channels are isolated, see
+Figures~\ref{fig:origimr},~\ref{fig:origimg} and~\ref{fig:origimb}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/origimr.jpg}
+    \caption{Red channel of original image}
+    \label{fig:origimr}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/origimg.jpg}
+    \caption{Green channel of original image}
+    \label{fig:origimg}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/origimb.jpg}
+    \caption{Blue channel of original image}
+    \label{fig:origimb}
+\end{figure}
+
+We can from the separated channels see that the nuclei are entirely contained
+in the blue channel and the padlocks entirely in the red channel. This allows
+us to process two separate images when determining the size of the cytoplasms
+and the number of padlocks.
+
+\section{Creating binary image of nuclei}
+
+Since the nuclei were contained in the blue channel of the original image,
+calculate the histogram of the blue channel, see Figure~\ref{fig:hist}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/hist.jpg}
+    \caption{Histogram of the blue channel}
+    \label{fig:hist}
+\end{figure}
+
+From this histogram we can see that 50 is a suitable threshold value, so the image
+is thresholded with this value, see Figure~\ref{fig:thld}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/thld.jpg}
+    \caption{The thresholded blue channel}
+    \label{fig:thld}
+\end{figure}
+
+The threshold turned out quite well, but there is still some unwanted small objects
+in the image. This is solved by eroding the thresholded image twice, and then
+dilating it twice. The result of this is shown in Figure~\ref{fig:erdi}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/erdi.jpg}
+    \caption{Result after eroding and dilating}
+    \label{fig:erdi}
+\end{figure}
+
+\section{Segmentation of nuclei}
+
+In Figure~\ref{fig:erdi}, some of the nuclei are connected to eachother. These
+need to be segmented.
+
+First, a distance map is calculated from the inverted binary image. The sign of
+the distance map is changed, which creates regional min-points inside the
+nuclei. This is shown in Figure~\ref{fig:distmap}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/distmap.jpg}
+    \caption{Distance map, where blue is more negative}
+    \label{fig:distmap}
+\end{figure}
+
+Unfortunately, one of the pairs of nuclei are too close to eachother, creating
+a regional min-point at their intersection, which would later lead to
+oversegmentation.
+
+\newpage
+\onecolumn
+\begin{appendices}
+
+\section{The MATLAB code}
+
+    \lstinputlisting[language=matlab]{Main.m}
+
+\end{appendices}
+
+\end{document}
