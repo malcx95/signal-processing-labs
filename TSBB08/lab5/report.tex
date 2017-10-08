@@ -84,7 +84,7 @@ and the number of padlocks.
 \section{Creating binary image of nuclei}
 
 Since the nuclei were contained in the blue channel of the original image,
-calculate the histogram of the blue channel, see Figure~\ref{fig:hist}.
+we calculate the histogram of the blue channel, see Figure~\ref{fig:hist}.
 
 \begin{figure}[h!]
     \centering
@@ -132,7 +132,157 @@ nuclei. This is shown in Figure~\ref{fig:distmap}.
 
 Unfortunately, one of the pairs of nuclei are too close to eachother, creating
 a regional min-point at their intersection, which would later lead to
-oversegmentation.
+oversegmentation. This is fixed by suppressing local minima that have a depth
+less than 30, shown in Figure~\ref{fig:suppressed}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/suppressed.jpg}
+    \caption{Distance map with suppressed local minima}
+    \label{fig:suppressed}
+\end{figure}
+
+Now the min-points can be marked (Figure~\ref{fig:minpoints}) and labeled
+(Figure~\ref{fig:labeled}).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/minpoints.jpg}
+    \caption{Marked min-points}
+    \label{fig:minpoints}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/labeled.jpg}
+    \caption{The min-points labeled}
+    \label{fig:labeled}
+\end{figure}
+
+The watershed of the image can now be calculated (Figure~\ref{fig:wshednuc}) 
+and converted to binary image (Figure~\ref{fig:binwshednuc}).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/wshednuc.jpg}
+    \caption{The calculated watershed}
+    \label{fig:wshednuc}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/binwshednuc.jpg}
+    \caption{Final segmented nuclei}
+    \label{fig:binwshednuc}
+\end{figure}
+
+\section{Segmentation of cytoplasms}
+
+Now the cytoplasms need to be segmented. This is done by first computing the distance
+map outside the nuclei and limit the maximum distance to 100 pixels, shown in
+Figure~\ref{fig:distcyt}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/distcyt.jpg}
+    \caption{Distance map of the cytoplasms}
+    \label{fig:distcyt}
+\end{figure}
+
+The watershed is now calculated. To make sure that the cytoplasms are bounded,
+a pixel outside the cells is set to 1. This creates a "waterhole", which will
+enable "the sea" to be filled with water in the watershed segmentation. The
+computed watershed is shown in Figure~\ref{fig:wshedcyt}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/wshedcyt.jpg}
+    \caption{The watershed segmented cytoplasms}
+    \label{fig:wshedcyt}
+\end{figure}
+
+\section{Creating the border}
+
+The border was created from the watershed of the cytoplasms by first observing
+that the border in that image had value 0. Then all pixels with the value 0 in
+that image was changed to 1, and all others to 0. This border was then dilated
+one iteration to make it slightly thicker. Figure~\ref{fig:border} shows the
+result of this.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/border.jpg}
+    \caption{The border of the cytoplasms}
+    \label{fig:border}
+\end{figure}
+
+\section{Isolating a particular cell}
+
+To isolate one of the cells, first the section we want to isolate is identified
+in the watershed image. Since the region has the value 6, we set positions
+where the watershed image isn't 6 to 0 in the original image. We also multiply
+the green channel with 0, since we are not interested in anything in there. The
+result of this is shown in Figure~\ref{fig:isolated}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/isolated.jpg}
+    \caption{The isolated cell with corresponding padlocks}
+    \label{fig:isolated}
+\end{figure}
+
+\section{Circling padlock cells}
+
+In order to identify each padlock cell in the image, we first filter the red
+channel of the isolated image using a negative Laplace filter. This will 
+enhance the padlocks, since the filter is essentially a matching filter for 
+such objects. The result of the filtering is shown in
+Figure~\ref{fig:filtered}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/filtered.jpg}
+    \caption{The laplace filtered padlocks}
+    \label{fig:filtered}
+\end{figure}
+
+From this, we can easily identify regional maxima, shown in
+Figure~\ref{fig:maxima}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/maxima.jpg}
+    \caption{Max-points from the filtered padlocks}
+    \label{fig:maxima}
+\end{figure}
+
+To circle these, we create grid of zeros and ones, where the ones resemble a
+circle. We then overlay these circles on a blank image in the same
+positions as the padlocks. Figure~\ref{fig:circles} shows these circles.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/circles.jpg}
+    \caption{Circles in the padlock positions}
+    \label{fig:circles}
+\end{figure}
+
+\section{Creating the final image}
+
+Now we combine the cytoplasm border and the padlock circles with the original
+image. To make the border yellow, we put it in the red and green channels of
+the original image. To make the circles cyan, we put the circles image in the
+green and blue channels. Since both the circles and border need to be in the
+green channel, we combine these before adding them to the image. The final
+result is shown in Figure~\ref{fig:final}.
+
+\onecolumn
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{images/final.jpg}
+    \caption{The final image}
+    \label{fig:final}
+\end{figure}
 
 \newpage
 \onecolumn
@@ -140,7 +290,13 @@ oversegmentation.
 
 \section{The MATLAB code}
 
-    \lstinputlisting[language=matlab]{Main.m}
+\subsection{The main code}
+
+\lstinputlisting[language=matlab]{Main.m}
+
+\subsection{The code for countpadlocks}
+
+\lstinputlisting[language=matlab]{countpadlocks.m}
 
 \end{appendices}
 

@@ -31,7 +31,6 @@ figure(7), imshow(im1bTmorph,[0 1]), colormap(gray), colorbar;
 %--------------------------------------------------
 D = bwdist(~im1bTmorph);
 figure(8), imshow(D,[],'InitialMagnification','fit');
-% title('Distance transform of ~bw');
 colormap(jet), colorbar;
 
 % Change the sign of the distance transform and 
@@ -40,7 +39,6 @@ colormap(jet), colorbar;
 Dinv = -D;
 Dinv(~im1bTmorph) = min(min(Dinv));
 figure(9), imshow(Dinv,[],'InitialMagnification','fit');
-% title('Complement distance transform of ~bw');
 colormap(jet), colorbar;
 
 % Search for regional min
@@ -48,12 +46,11 @@ colormap(jet), colorbar;
 
 suppressed = imhmin(Dinv, 30); % supress local minima with depth less than 30
 figure(10), imshow(suppressed, [], 'InitialMagnification', 'fit')
-% title('Suppressed');
+colormap(jet), colorbar;
 
 RegMin = imregionalmin(suppressed,8);
 figure(11), imshow(RegMin,[],'InitialMagnification','fit');
 colormap(jet), colorbar;
-% title('regional min of Dinv');
 
 % Perform labeling
 %-----------------
@@ -68,26 +65,22 @@ for no = 1:NumObj
 end
 figure(12), imshow(labelim,[],'InitialMagnification','fit');
 colormap(jet), colorbar;
-% title('labeling of regional min');
 
 % Compute the watershed transform
 %--------------------------------
 W1 = watershed_meyer(Dinv,8,labelstruct);
 figure(13), imshow(W1,[],'InitialMagnification','fit');
 colormap(jet), colorbar;
-% title('Watershed of Dinv');
 
 W2 = W1;
 loc = find(W1==1);
 W2(loc) = 0;
 figure(14), imshow(W2,[],'InitialMagnification','fit');
 colormap(jet), colorbar;
-% title('Fixed Watershed of Dinv')
 
 W2T = W2>=1;
 figure(15), imshow(W2T,[],'InitialMagnification','fit');
 colormap(gray), colorbar;
-% title('Final segmentation result')
 
 % Compute the distance map outside the nuclei
 %--------------------------------------------
@@ -102,7 +95,6 @@ for i = 1:length(dMap)
 end
 figure(16), imshow(dMap, [], 'InitialMagnification', 'fit')
 colormap(jet), colorbar;
-% title('Distance map of nuclei');
 
 % Create water holes
 %-------------------
@@ -115,7 +107,6 @@ holesstruct = bwconncomp(holeMap, 8);
 wShed = watershed_meyer(dMap, 8, holesstruct);
 figure(17), imshow(wShed, [], 'InitialMagnification', 'fit')
 colormap(jet), colorbar;
-% title('Watershed of dMap (cytoplasm)');
 
 % Extract the border of the watershed
 %-----------------------------------
@@ -134,7 +125,6 @@ border = bwmorph(border, 'dilate', 1);
 border = border * 255;
 figure(18), imshow(border, [], 'initialmagnification', 'fit')
 colormap(gray);
-% title('border of watershed');
 
 
 % Create the image of the isolated cell
@@ -153,7 +143,6 @@ end
 isolated(:,:, 2) = isolated(:,:,2)*0;
 
 figure(19), imshow(isolated, [], 'initialmagnification', 'fit')
-% title('Isolated cell');
 
 % Laplace filter the padlocks
 %--------------------------------------------------------
@@ -168,14 +157,12 @@ lfilter = [
 	] / 64;
 laplfiltim = conv2(redIm, lfilter);
 figure(20), imshow(laplfiltim, []);
-% title('Laplace filtered padlocks');
 
 % Count padlocks and generate maxpoints
 %-------------------------------------------------------
 [num, maxpoints] = countpadlocks(laplfiltim);
 
 figure(21), imshow(maxpoints, []);
-% title('Padlock points');
 
 % Create padlock circles
 %-------------------------------------------------------
@@ -199,8 +186,8 @@ circleIm = zeros(w, h);
 for i = 1:w
     for j = 1:h
         if maxpoints(i, j) == 1
-            circleIm(i - cw/2 - 1:i + cw/2 - 2, j - ch/2 - 1:j + ch/2 - 2) = ...
-                circleIm(i - cw/2 - 1:i + cw/2 - 2, j - ch/2 - 1:j + ch/2 - 2) | C;
+            circleIm(i - 7:i + 4, j - 7:j + 4) = ...
+                circleIm(i - 7:i + 4, j - 7:j + 4) | C;
         end
     end
 end
@@ -208,7 +195,6 @@ end
 circleIm = circleIm * 255;
 
 figure(22), imshow(circleIm, []);
-% title('Circles');
 
 % Create final image
 %---------------------------------------------------------
@@ -216,10 +202,10 @@ finalIm = im1;
 
 borderAndCircles = ((border / 255) | (circleIm / 255)) * 255;
 
-% add the border
+% add the border and circles
 finalIm(:,:,1) = max(im1r, border);
 finalIm(:,:,2) = max(im1g, borderAndCircles);
 finalIm(:,:,3) = max(im1b, circleIm);
 
-figure(23), imshow(finalIm/255), title('Final image!');
+figure(23), imshow(finalIm/255);
 
