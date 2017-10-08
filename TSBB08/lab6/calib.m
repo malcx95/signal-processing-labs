@@ -1,5 +1,4 @@
-% Read original image;
-im = double(imread('cmanmod.png'));
+im = double(rgb2gray(imread('chess.png')));
 
 figure(1)
 colormap(gray(256))
@@ -29,11 +28,11 @@ colormap(gray(256))
 
 T11 = fx.^2;
 subplot(1,2,1); imagesc(T11, [0 maxv^2]); colorbar('horizontal'); 
-title('T_{11} before filtering')
+title('T_{11}')
 axis image; axis off;
 T22 = fy.^2;
 subplot(1,2,2); imagesc(T22, [0 maxvy^2]); colorbar('horizontal'); 
-title('T_{22} before filtering')
+title('T_{22}')
 axis image; axis off;
 
 sigma=1.25;
@@ -48,42 +47,63 @@ T22 = conv2(T22, lp, 'same');
 
 figure(4)
 subplot(1,2,1); imagesc(T11, [0 maxv^2]); colorbar('horizontal'); 
-title('T_{11}')
+title('T_{11} filtered')
 axis image; axis off;
 subplot(1,2,2); imagesc(T22, [0 maxvy^2]); colorbar('horizontal'); 
-title('T_{22}')
+title('T_{22} filtered')
 axis image; axis off;
 colormap(gray(256));
 
 T12 = fx.*fy;
 T12 = conv2(T12, lp, 'same');
 
-z = T11 - T22 + 1i*2*T12;
+k = 0.05;
 
-zabs = abs(z);
-zarg = atan2(imag(z), real(z));
+cHarris = T11.*T22 - T12.^2 - k*(T11 + T22).^2;
 
-[h, w] = size(zarg);
+figure(5), imagesc(cHarris), axis image; axis off;
+colorbar('horizontal');
+title('c_{Harris}')
 
-for i = 1:h
-    for j = 1:w
-        if zarg(i, j) < 0
-            zarg(i, j) = zarg(i, j) + 2*pi;
+thHarris = cHarris>1000000;
+maxHarris = imregionalmax(cHarris);
+
+harrisPoints = thHarris.*maxHarris;
+figure(6), imagesc(thHarris), axis image; axis off;
+colorbar('horizontal'); 
+colormap(gray);
+title('Harris thresholded')
+
+figure(7), imagesc(maxHarris), axis image; axis off;
+colorbar('horizontal');
+colormap(gray);
+title('Maxpoints')
+
+figure(8), imagesc(harrisPoints), axis image; axis off;
+colorbar('horizontal');
+colormap(gray);
+title('Harris points')
+
+
+x = [];
+y = [];
+r = [];
+
+[h, w] = size(harrisPoints);
+
+for yp = 1:h
+    for xp = 1:w
+        if harrisPoints(yp, xp) == 1
+            x = [x; xp];
+            y = [y; yp];
+            r = [r; 4];
         end
     end
 end
 
-figure(5)
-imagesc(zabs, [0 maxv^2]), colorbar('horizontal'), 
-title('abs(z)'), 
-axis image,  axis off,
-colormap(gray(256));
-figure(6)
-imagesc(zarg), colorbar('horizontal'),
-title('arg(z)'),
-axis image, axis off,
-colormap(goptab);
-
-figure(7);
-gopimage(z);
+figure(9), imagesc(im), axis image; axis off;
+viscircles([x y], r, 'EdgeColor', 'r');
+colorbar('horizontal');
+colormap(gray);
+title('Circles of Harris points')
 
