@@ -49,11 +49,11 @@ r = A * V(:,end);
 
 fprintf('Residual error for homogenous method: %d\n', sum(r .* r));
 
+diag(S)'
+figure(5);plot(log(diag(S)),'o');
 
 y2b2 = vgg_get_nonhomg(H2*y1);
 y1b2 = vgg_get_nonhomg(inv(H2)*y2);
-figure(1);plot(y1b(1,:),y1b(2,:),'bx');
-figure(2);plot(y2b(1,:),y2b(2,:),'bx');
 
 fprintf('Total geometric error e1: %d\n', geom_err(y1, y2, y1b2, y2b2));
 
@@ -79,4 +79,38 @@ meandist2 = meandist2 / w;
 
 fprintf('Mean dist for y1tilde: %d\n', meandist1);
 fprintf('Mean dist for y2tilde: %d\n', meandist2);
+
+[~, N] = size(y1tilde);
+Atilde = [];
+for i = 1:N
+    Atilde = [Atilde; 
+            [ y1tilde(1, i), 0,       -y1tilde(1, i)*y2tilde(1, i), y1tilde(2, i), 0,       -y1tilde(2, i)*y2tilde(1, i), 1, 0, -y2tilde(1, i) ];
+            [ 0,       y1tilde(1, i), -y1tilde(1, i)*y2tilde(2, i), 0,       y1tilde(2, i), -y1tilde(2, i)*y2tilde(2, i), 0, 1, -y2tilde(2, i) ];
+    ];
+end
+
+[Utilde Stilde Vtilde] = svd(Atilde);
+Htilde = reshape(Vtilde(:,end),3,3);
+
+H3 = inv(T2)*Htilde*T1;
+
+diag(Stilde)'
+figure(6);plot(log(diag(Stilde)),'o');
+
+y2b3 = vgg_get_nonhomg(H3*y1);
+y1b3 = vgg_get_nonhomg(inv(H3)*y2);
+fprintf('Geometric error e3: %d\n', geom_err(y1, y2, y1b3, y2b3));
+
+
+% Ground truth
+%-------------------------------------
+
+load -ascii H1to2p
+
+y2gt = vgg_get_nonhomg(H1to2p*y1);
+y1gt = vgg_get_nonhomg(inv(H1to2p)*y2);
+
+fprintf('Ground truth geometric error for H1: %d\n', geom_err(y1gt, y2gt, y1b, y2b));
+fprintf('Ground truth geometric error for H2: %d\n', geom_err(y1gt, y2gt, y1b2, y2b2));
+fprintf('Ground truth geometric error for H3: %d\n', geom_err(y1gt, y2gt, y1b3, y2b3));
 
