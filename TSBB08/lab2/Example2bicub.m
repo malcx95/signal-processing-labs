@@ -1,4 +1,4 @@
-Im = double(imread('logo.tif')); % load image
+Im = double(imread('baboon.tif')); % load image
 
 [Ny, Nx] = size(Im);
 N = min(min(Nx,Ny));

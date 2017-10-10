@@ -107,14 +107,47 @@ imagesc(fhat,[0 255]), axis image, title('Wiener filtered');
 
 f = getactive;
 
-transformed = fft2(fftshift(f));
+transformed = fft2(fftshift(f - mean(mean(f))));
 
 squared = abs(transformed).^2;
 
-result = ifftshift(ifft2(squared));
+rf = ifftshift(ifft2(squared));
+
+orig = length(rf)/2 + 1;
+
+rhox = rf(orig + 1, orig)/rf(orig, orig);
+rhoy = rf(orig, orig + 1)/rf(orig, orig);
+rho = (rhox + rhoy)/2;
+
+fprintf('rho = %d\n', rho);
 
 figure(90), colormap(gray)
 imagesc(f), axis image, title('Original image');
 figure(91), colormap(gray)
-imagesc(result), axis image, colorbar, title('ACF');
+imagesc(rf), axis image, colorbar, title('ACF');
+
+%% 2.3
+% ---------------------------------------------------------------
+
+im = getactive;
+[cannyim1, tc] = edge(im, 'canny');
+tc
+newimage(cannyim1, 'canny1', 5);
+
+T = 0.3;
+
+cannyim2 = edge(im, 'canny', [0.4*T T], 1);
+newimage(cannyim2, 'canny2', 5);
+
+%% 3
+% ---------------------------------------------------------------
+
+a = getactive;
+
+maxval = max(max(a));
+b = maxval * imnoise(a/maxval, 'gaussian', 0.005);
+newimage(b, 'saturnbrus', 2);
+
+c = wiener2(b, [5 5]);
+newimage(c, 'saturn with wiener', 2);
 

@@ -102,7 +102,7 @@ for yp = 1:h
 end
 
 figure(9), imagesc(im), axis image; axis off;
-viscircles([x y], r, 'EdgeColor', 'r');
+viscircles([x + 1 y + 1], r, 'EdgeColor', 'r');
 colorbar('horizontal');
 colormap(gray);
 title('Circles of Harris points')

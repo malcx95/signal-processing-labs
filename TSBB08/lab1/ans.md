@@ -171,3 +171,7 @@ image's transform and the transform of the kernel, since the star effect is no l
 
 You can se small rings in the image.
 
+# 32
+
+(see notes)
+

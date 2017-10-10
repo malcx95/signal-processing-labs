@@ -1,4 +1,4 @@
-Im = double(imread('logo.tif')); % load image
+Im = double(imread('baboon.tif')); % load image
 
 [Ny, Nx] = size(Im);
 N = min(min(Nx,Ny));
@@ -8,11 +8,14 @@ mask = (x.^2 + y.^2)<((N-1)/2)^2;
 Im = Im.* mask;
 
 figure(4); colormap gray;
-rotatedIm = rotateimage(Im, pi / 6, 'bicubic16');
-nIm = rotateimage(rotatedIm, -pi / 6, 'bicubic16');
+nIm = rotateimage(Im, pi / 6.1, 'bicubic16');
+for i = 1:11
+	nIm = rotateimage(nIm, pi / 6.1, 'bicubic16');
+end
+rotatedIm = nIm;
 subplot(331); imagesc(Im); title('Im'); axis image; colorbar;
-subplot(332); imagesc(rotatedIm, [0 1]); title('RotatedIm'); axis image; colorbar;
-subplot(333); imagesc(nIm, [0 1]); title('nIm'); axis image; colorbar;
+subplot(332); imagesc(rotatedIm); title('RotatedIm'); axis image; colorbar;
+subplot(333); imagesc(nIm); title('nIm'); axis image; colorbar;
 errorIm = nIm - Im;
 subplot(334); imagesc(errorIm); title('ErrorIm'); axis image; axis off; colorbar;
 
