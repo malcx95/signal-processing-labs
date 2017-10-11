@@ -7,9 +7,7 @@ figure(2); imagesc(img2);
 title('Original image 2');
 
 y1  = vgg_get_homg([ 130, 130; 275, 275; 526, 190; 335, 193; 416, 477; 196, 141; 288, 138; 192, 276; 516, 345; 229, 384 ]');
-% y1 = vgg_get_homg([191 140; 125 498; 421 367; 611 88;  735 291; 630 409; 394 125; 44 282; ]');
 y2 = vgg_get_homg([ 114, 247; 274, 344; 440, 214; 297, 257; 443, 487; 171, 242; 244, 219; 209, 364; 477, 349; 271, 453 ]');
-% y2 = vgg_get_homg([166 242; 222 588; 411 391; 470 111; 611 256; 576 378; 322 184; 87 408; ]');
 
 figure(1);hold('on');plot(y1(1,:),y1(2,:),'go');
 figure(2);hold('on');plot(y2(1,:),y2(2,:),'go');
@@ -110,7 +108,76 @@ load -ascii H1to2p
 y2gt = vgg_get_nonhomg(H1to2p*y1);
 y1gt = vgg_get_nonhomg(inv(H1to2p)*y2);
 
-fprintf('Ground truth geometric error for H1: %d\n', geom_err(y1gt, y2gt, y1b, y2b));
-fprintf('Ground truth geometric error for H2: %d\n', geom_err(y1gt, y2gt, y1b2, y2b2));
-fprintf('Ground truth geometric error for H3: %d\n', geom_err(y1gt, y2gt, y1b3, y2b3));
+egt1 = 0;
+for k = 1:length(y1gt),
+	egt1 = egt1 + norm(y2gt(:,k)-y2b(:,k))^2 + ...
+		+ norm(y1gt(:,k)-y1b(:,k))^2;
+end
+egt1 = sqrt(egt1);
+
+egt2 = 0;
+for k = 1:length(y1gt),
+	egt2 = egt2 + norm(y2gt(:,k)-y2b2(:,k))^2 + ...
+		+ norm(y1gt(:,k)-y1b2(:,k))^2;
+end
+egt2 = sqrt(egt2);
+
+egt3 = 0;
+for k = 1:length(y1gt),
+	egt3 = egt3 + norm(y2gt(:,k)-y2b3(:,k))^2 + ...
+		+ norm(y1gt(:,k)-y1b3(:,k))^2;
+end
+egt3 = sqrt(egt3);
+
+fprintf('Ground truth geometric error for H1: %d\n', egt1);
+fprintf('Ground truth geometric error for H2: %d\n', egt2);
+fprintf('Ground truth geometric error for H3: %d\n', egt3);
+
+l1 = liu_crossop(y1(:, 1))*y1(:, 2);
+figure(1);drawline(l1, 'axis', 'xy');
+
+l2 = inv(H3')*l1;
+figure(2);drawline(l2, 'axis', 'xy');
+
+y1deg = vgg_get_homg([ 770, 36; 602, 82; 683, 54; 510 111; 383, 146; 275, 179; 175, 211; 86, 224; 31, 228; 348, 157]');
+y2deg = vgg_get_homg([ 570, 41; 459, 106; 514, 76; 403, 152; 321, 205; 248, 259; 182, 310; 108, 346; 57, 363; 296, 222]');
+
+figure(1);hold('on');plot(y1deg(1,:),y1deg(2,:),'bo');
+figure(2);hold('on');plot(y2deg(1,:),y2deg(2,:),'bo');
+
+[~, N] = size(y1deg);
+Adeg = [];
+for i = 1:N
+    Adeg = [Adeg; 
+            [ y1deg(1, i), 0,       -y1deg(1, i)*y2deg(1, i), y1deg(2, i), 0,       -y1deg(2, i)*y2deg(1, i), 1, 0, -y2deg(1, i) ];
+            [ 0,       y1deg(1, i), -y1deg(1, i)*y2deg(2, i), 0,       y1deg(2, i), -y1deg(2, i)*y2deg(2, i), 0, 1, -y2deg(2, i) ];
+    ];
+end
+
+[Udeg Sdeg Vdeg] = svd(Adeg);
+Hdeg = reshape(Vdeg(:,end), 3, 3);
+
+diag(Sdeg)'
+figure(7);plot(log(diag(Sdeg)),'o');
+
+[y1tildedeg T1] = liu_preconditioning(y1deg);
+[y2tildedeg T2] = liu_preconditioning(y2deg);
+
+[~, N] = size(y1tildedeg);
+Atildedeg = [];
+for i = 1:N
+    Atildedeg = [Atildedeg; 
+            [ y1tildedeg(1, i), 0,       -y1tildedeg(1, i)*y2tildedeg(1, i), y1tildedeg(2, i), 0,       -y1tildedeg(2, i)*y2tildedeg(1, i), 1, 0, -y2tildedeg(1, i) ];
+            [ 0,       y1tildedeg(1, i), -y1tildedeg(1, i)*y2tildedeg(2, i), 0,       y1tildedeg(2, i), -y1tildedeg(2, i)*y2tildedeg(2, i), 0, 1, -y2tildedeg(2, i) ];
+    ];
+end
+
+[Utildedeg Stildedeg Vtildedeg] = svd(Atildedeg);
+Htildedeg = reshape(Vtilde(:,end),3,3);
+
+diag(Stildedeg)'
+figure(8);plot(log(diag(Stildedeg)),'o');
+
+img2tdeg=image_resample(double(img1),Hdeg,640,800);
+figure(9);imagesc(uint8(img2tdeg));
 

@@ -111,4 +111,3 @@ err = norm(x2e - data2, 'fro');
 
 [ndataB alphadataB] = getnalpha(RdataB);
 
-
