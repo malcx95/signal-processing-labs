@@ -1,8 +1,9 @@
 k = 0:1:100;
 s = sin(k/10);
+run(s);
 
 %%
-cert = double(rand(1, 101)>0.25);
+cert = double(rand(1, 101)>0.2);
 scert = s.*cert;
 run(scert);
 
@@ -42,7 +43,7 @@ for k = 1:4
 
 	x = ones(kays(k),1)*(-lims(k):lims(k));
 	y = x';
-	a = exp(-(x.^2 + y.^2)/4);
+	a = exp(-(x.^2 + y.^2)/2);
 	figure(10);
 	subplot(2, 2, k);
 	mesh(a);
