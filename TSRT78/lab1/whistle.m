@@ -55,26 +55,30 @@ A = [1; th]';
 var = sqrt(lam);
 e = randn(N, 1) * var;
 
-%yapprox = filtfilt(B, A, e);
+yapprox = filter(B, A, e);
 [Happrox, Wapprox] = freqz(B, A, N);
 
 
-yapprox = zeros(1, N);
-yapprox(1) = e(1);
-yapprox(2) = e(2);
+ydiff = zeros(1, N);
+ydiff(1) = e(1);
+ydiff(2) = -ydiff(1)*th(1) + e(2);
 
 for t = 3:N
-    yapprox(t) = -yapprox(t - 1)*th(1) - yapprox(t - 2)*th(2) + e(t);
+    ydiff(t) = -ydiff(t - 1)*th(1) - ydiff(t - 2)*th(2) + e(t);
 end
 
 YAPPROX = fft(yapprox);
 
+% Freq from yapprox = 0.1274
+% Freq from x = 0.1281
+
 figure(3)
 subplot(2, 1, 1);
-plot(wnorm, abs(YAPPROX)); title('DFT of yapprox')
+plot(wnorm, abs(X)); title('DFT of X')
 
 subplot(2, 1, 2);
-plot(Wapprox/(2*pi), abs(Happrox))
+plot(wnorm, abs(YAPPROX)); title('DFT of yapprox')
+% plot(Wapprox/(2*pi), abs(YAPPROX)); title('DFT of yapprox')
 
 [z, p, k] = tf2zp(B, A);
 
