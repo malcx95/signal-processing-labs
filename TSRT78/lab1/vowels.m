@@ -111,5 +111,15 @@ plot(w, abs(fft(o)));
 subplot(2, 1, 2);
 plot(w, abs(OPRED));
 
+%% Validation
 
 
+ea = filter(Aa, Ba, aval);
+eacorr = conv(ea, ea(end:-1:1));
+figure(5);
+plot(eacorr);
+
+eo = filter(Ao, Bo, oval);
+eacorr = conv(ea, ea(end:-1:1));
+figure(6);
+plot(eacorr);
