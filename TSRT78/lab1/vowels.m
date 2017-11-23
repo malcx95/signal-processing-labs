@@ -5,6 +5,8 @@ ao = ao(:, 1);
 a = ao(10000:26000);
 o = ao(40000:56000);
 
+
+
 aest = a(1:10000);
 aval = a(10001:end);
 
@@ -33,17 +35,17 @@ w = (1/N*(fs))*[0:N-1];
 % plot(w, abs(O)); title('DFT of o')
 % 
 
-[tha P lam epsi] = sig2ar(aest, 9);
+[tha P lama epsi] = sig2ar(aest, 9);
 
-B = 1;
-A = [1; tha]';
+Ba = 1;
+Aa = [1; tha]';
 
 var = sqrt(lam);
 e = randn(Nval, 1) * var;
-apred = filter(B, A, e);
+apred = filter(Ba, Aa, e);
 
 
-[tho P lam epsi] = sig2ar(oest, 2);
+[tho P lamo epsi] = sig2ar(oest, 2);
 
 Bo = 1;
 Ao = [1; tho]';
@@ -66,4 +68,48 @@ plot(w, abs(APRED)); title('DFT of a')
 
 % am = ar(aest, 9);
 % om = ar(oest, 2);
+
+%%
+% Determine the period of the signals by looking in their plots
+figure(2);
+subplot(2, 1, 1);
+plot(a); % One period is 78 samples
+subplot(2, 1, 2);
+plot(o); % One period is 81 samples
+
+%%
+
+w = (1/N*(fs))*[0:N-1];
+
+% Pulse train for a
+Pa = 78;
+apt = zeros(1, N);
+apt(1:Pa:end) = sqrt(Pa * lama);
+
+% Prediction of a with pulse train
+apred = filter(Ba, Aa, apt);
+APRED = fft(apred);
+
+figure(3);
+subplot(2, 1, 1);
+plot(w, abs(fft(a)));
+subplot(2, 1, 2);
+plot(w, abs(APRED));
+
+% Pulse train for o
+Po = 81;
+opt = zeros(1, N);
+opt(1:Po:end) = sqrt(Po * lamo);
+
+% Prediction of o with pulse train
+opred = filter(Bo, Ao, opt);
+OPRED = fft(opred);
+
+figure(4);
+subplot(2, 1, 1);
+plot(w, abs(fft(o)));
+subplot(2, 1, 2);
+plot(w, abs(OPRED));
+
+
 
