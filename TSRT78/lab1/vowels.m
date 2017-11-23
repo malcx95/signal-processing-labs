@@ -6,7 +6,6 @@ a = ao(10000:26000);
 o = ao(40000:56000);
 
 
-
 aest = a(1:10000);
 aval = a(10001:end);
 
@@ -113,13 +112,34 @@ plot(w, abs(OPRED));
 
 %% Validation
 
-
 ea = filter(Aa, Ba, aval);
 eacorr = conv(ea, ea(end:-1:1));
 figure(5);
 plot(eacorr);
 
 eo = filter(Ao, Bo, oval);
-eacorr = conv(ea, ea(end:-1:1));
+eocorr = conv(eo, eo(end:-1:1));
 figure(6);
-plot(eacorr);
+plot(eocorr);
+
+%% Test with iddata
+
+iaest = iddata(aest, [], 1/fs);
+iaval = iddata(aval, [], 1/fs);
+ia = iddata(a, [], 1/fs);
+
+ma = ar(iaest, 9);
+ap = predict(ma, iaval, Inf);
+figure(1)
+plot(ap.OutputData)
+
+figure(2)
+compare(ia, ma, Inf)
+
+ioest = iddata(oest, [], 1/fs);
+ioval = iddata(oval, [], 1/fs);
+
+mo = ar(ioest, 9);
+op = predict(ma, ioval, 2);
+figure(1)
+plot(op.OutputData)
