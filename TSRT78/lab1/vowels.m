@@ -40,7 +40,7 @@ w = (1/N*(fs))*[0:N-1];
 Ba = 1;
 Aa = [1; tha]';
 
-var = sqrt(lam);
+var = sqrt(lama);
 e = randn(Nval, 1) * var;
 apred = filter(Ba, Aa, e);
 
@@ -50,7 +50,7 @@ apred = filter(Ba, Aa, e);
 Bo = 1;
 Ao = [1; tho]';
 
-var = sqrt(lam);
+var = sqrt(lamo);
 eo = randn(Nval, 1) * var;
 opred = filter(Bo, Ao, eo);
 
