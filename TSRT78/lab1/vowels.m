@@ -12,7 +12,7 @@ aval = a(10001:end);
 oest = o(1:10000);
 oval = o(10001:end);
 
-% arordercv(aest, aval, 50);
+arordercv(aest, aval, 50);
 % arordercv(oest, oval, 50);
 
 % For a-sound, order 9 should be used
@@ -129,17 +129,17 @@ iaval = iddata(aval, [], 1/fs);
 ia = iddata(a, [], 1/fs);
 
 ma = ar(iaest, 9);
-ap = predict(ma, iaval, Inf);
+ap = predict(ma, iaval, 1);
 figure(1)
 plot(ap.OutputData)
 
 figure(2)
-compare(ia, ma, Inf)
+compare(iaval, ma, 1)
 
 ioest = iddata(oest, [], 1/fs);
 ioval = iddata(oval, [], 1/fs);
 
-mo = ar(ioest, 9);
-op = predict(ma, ioval, 2);
-figure(1)
-plot(op.OutputData)
+% mo = ar(ioest, 9);
+% op = predict(ma, ioval, 2);
+% figure(1)
+% plot(op.OutputData)
