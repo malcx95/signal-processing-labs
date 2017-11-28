@@ -26,6 +26,8 @@
     tabsize=3
 }
 
+\newcommand{\code}[1]{\texttt{#1}}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -73,7 +75,7 @@ the results.
 
 \section{Assignment 2 --- Vowel}
 
-In this assignment, the sound of the vowels `a'. and `o' were to be
+In this assignment, the sound of the vowels `a' and `o' were to be
 modeled, using AR-models of suitable orders. The models were then
 simulated using a suitable input signal.
 
@@ -84,8 +86,20 @@ explained.
 
 \subsubsection{Model order estimation}
 
-In order to estimate the model order, \textit{cross validation} is used, in
-which AR-models are estimated using 
+In order to estimate the model order, \textit{cross validation} is used.
+Here, the observed data $x(t)$ is split into two
+parts, the \textit{validation data} containing samples $1, 2, ..., N_1$, and
+the \textit{estimation data} containing samples $N_1 + 1, N_1 + 2, ... ,N$,
+where $N$ is the total number of observed
+samples, and $N_1 = \frac{2N}{3}$.
+
+The estimation data is used to estimate AR-models of varying orders, using
+the theory explained in Section~\ref{sec:whistletheory}. The \textit{minimal
+loss function} $W(n)$ is calculated for each order $n$. By plotting $W(n)$, a
+clear picture of which model order should be used; the model order at which
+increasing $n$ doesn't lower $W(n)$ particularly much.
+
+\subsubsection{Model validation}
 
 \subsection{Method}
 \subsection{Results}
