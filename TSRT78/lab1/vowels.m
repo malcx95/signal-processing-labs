@@ -12,11 +12,13 @@ aval = a(10001:end);
 oest = o(1:10000);
 oval = o(10001:end);
 
-arordercv(aest, aval, 50);
+arordercv(aest, aval, 10);
 % arordercv(oest, oval, 50);
 
 % For a-sound, order 9 should be used
 % For o-sound, order 2 should be used
+
+%%
 
 N = length(a);
 Nval = length(aval);

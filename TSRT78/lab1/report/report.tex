@@ -1,15 +1,35 @@
 \documentclass{IEEEtran}
+\usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{%
+    aboveskip=3mm, belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{red},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
+
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 \title{Lab1 --- Fundamental Signal Processing}
-\author{David Pop, Malcolm Vigren}
 
 \maketitle
 
@@ -45,13 +65,28 @@ the results.
 \section{Assignment 1 --- Whistle}
 
 \subsection{Theory}
+\label{sec:whistletheory}
+
 \subsection{Method}
 \subsection{Results}
 \subsection{Discussion}
 
 \section{Assignment 2 --- Vowel}
 
+In this assignment, the sound of the vowels `a'. and `o' were to be
+modeled, using AR-models of suitable orders. The models were then
+simulated using a suitable input signal.
+
 \subsection{Theory}
+
+In this section, the theoretical background behind the vowel assignment is 
+explained.
+
+\subsubsection{Model order estimation}
+
+In order to estimate the model order, \textit{cross validation} is used, in
+which AR-models are estimated using 
+
 \subsection{Method}
 \subsection{Results}
 \subsection{Discussion}
@@ -65,19 +100,29 @@ the results.
 
 \section{Conclusion}
 
-\newpage
-\begin{appendices}
-    \section{Matlab code}
-\end{appendices}
 
 \begin{thebibliography}{9}
 
 \bibitem{signalproc}
-  Gustafsson, Fredrik,
-  \textit{Signal processing},
+  Gustafsson, Fredrik. Ljung, Lennart. Millnert, Mille.
+  \textit{Signal processing}.
   Studentlitteratur, Lund,
   2010.
 
 \end{thebibliography}
+\newpage
+\begin{appendices}
+    \section{Matlab code}
+    \subsection{sig2ar.m}\label{code:sig2ar}
+    \lstinputlisting[language=Matlab]{../sig2ar.m}
+    \subsection{arordercv.m}\label{code:arordercv}
+    \lstinputlisting[language=Matlab]{../arordercv.m}
+    \subsection{whistle.m}\label{code:whistle}
+    \lstinputlisting[language=Matlab]{../whistle.m}
+    \subsection{vowels.m}\label{code:vowels}
+    \lstinputlisting[language=Matlab]{../vowels.m}
+    \subsection{gsm.m}\label{code:gsm}
+    \lstinputlisting[language=Matlab]{../gsm.m}
+\end{appendices}
 
 \end{document}
