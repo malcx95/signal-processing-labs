@@ -27,6 +27,8 @@
 }
 
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\val}[1]{#1_{\text{val}}}
+\newcommand{\est}[1]{#1_{\text{est}}}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -87,21 +89,70 @@ explained.
 \subsubsection{Model order estimation}
 
 In order to estimate the model order, \textit{cross validation} is used.
-Here, the observed data $x(t)$ is split into two
-parts, the \textit{validation data} containing samples $1, 2, ..., N_1$, and
-the \textit{estimation data} containing samples $N_1 + 1, N_1 + 2, ... ,N$,
+Here, the observed data $y(t)$ is split into two
+parts, the \textit{estimation data} $\est{y}(t)$ containing samples $1,
+2,\ldots,N_1$, and
+the \textit{validation data} $\val{y}(t)$ containing samples $N_1 + 1, N_1 + 2,
+\ldots,N$,
 where $N$ is the total number of observed
 samples, and $N_1 = \frac{2N}{3}$.
 
 The estimation data is used to estimate AR-models of varying orders, using
-the theory explained in Section~\ref{sec:whistletheory}. The \textit{minimal
-loss function} $W(n)$ is calculated for each order $n$. By plotting $W(n)$, a
+the theory explained in Section~\ref{sec:whistletheory}. We then define the 
+\textit{loss function} $W(n)$ as
+
+\begin{equation}
+    W(n) = V(\hat{\theta}^{(n)})
+\end{equation}
+
+where 
+
+\begin{equation}
+    V(\hat{\theta}^{(n)}) = \frac{1}{\val{N}}\sum^{\val{N}}_{t=1}(\val{y}(t) -
+        \val{\hat{y}}(t;\hat{\theta}^{(n)}))^2
+\end{equation}
+
+where $\hat{\theta}^{(n)}$ denotes the model parameters of the $n$:th order
+AR-model generated from the estimation data. This means that $W(n)$ measures
+how much the validation data differs from the predicted validation data, when
+using an AR-model of order $n$. By plotting $W(n)$, a
 clear picture of which model order should be used; the model order at which
 increasing $n$ doesn't lower $W(n)$ particularly much.
 
+We denote quantity $\val{y}(t) - \val{\hat{y}}(t;\hat{\theta}^{(n)})$ as
+$\epsilon(t;\hat{\theta}^{(n)})$. This quantity can equivalently calculated
+as
+\begin{equation}
+    \epsilon(t;\hat{\theta}^{(n)}) =
+    \frac{A(q,\hat{\theta}^{(n)})}{C(q,\hat{\theta}^{(n)})}\val{y}(t)
+\end{equation}
+
+where $A(q,\hat{\theta}^{(n)})$ denotes the poles of the AR-model, and
+$C(q,\hat{\theta}^{(n)})$ the zeros. This means that
+$\epsilon(t;\hat{\theta}^{(n)})$ can be calculated by filtering the validation
+data with the inverse of the filter created by the estimated AR-model.
+
 \subsubsection{Model validation}
+The models can be validated by again using cross validation. Using residual
+$\epsilon(t;\hat{\theta}^{(n)})$, a \textit{residual whiteness test} can be
+performed. The residual should be approximately white if the model is accurate,
+which can be tested by checking that the probability of
+$\epsilon(t;\hat{\theta}^{(n)})$ changing sign from one sample to the next is
+about 0.5.
+
+The whiteness of the residual can also be tested by calculating it's covariance
+function $R_{\epsilon\epsilon}(k)$. The function should approximately be equal
+to $\lambda\delta(t)$, where $\lambda$ is some non-zero constant.
+
+\subsubsection{Simulating}
+Since a vowel is a periodic signal, it is suitable to simulate them using an
+impulse train with the same period as the vowel to simulate. This pulse train
+can be filtered with the estimated AR-model for a vowel to simulate it.
 
 \subsection{Method}
+The vowels `a' and `o' were recorded and trimmed such that they are two seconds
+long.
+
 \subsection{Results}
 \subsection{Discussion}
 
