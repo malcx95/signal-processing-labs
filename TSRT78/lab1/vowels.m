@@ -1,22 +1,27 @@
 
 [ao, fs] = audioread('ao.wav');
 
+
 ao = ao(:, 1);
 a = ao(10000:26000);
 o = ao(40000:56000);
 
+N = length(a);
+N1 = floor(2*N/3);
 
-aest = a(1:10000);
-aval = a(10001:end);
+aest = a(1:N1);
+aval = a(N1 + 1:end);
 
-oest = o(1:10000);
-oval = o(10001:end);
+oest = o(1:N1);
+oval = o(N1 + 1:end);
 
-arordercv(aest, aval, 50);
+arordercv(aest, aval, 10);
 % arordercv(oest, oval, 50);
 
 % For a-sound, order 9 should be used
 % For o-sound, order 2 should be used
+
+%%
 
 N = length(a);
 Nval = length(aval);
