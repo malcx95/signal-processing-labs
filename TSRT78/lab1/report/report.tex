@@ -347,6 +347,7 @@ In this section, the theoretical background behind the vowel assignment is
 explained.
 
 \subsubsection{Model order estimation}
+\label{ssub:modelorderestimation}
 
 In order to estimate the model order, \textit{cross validation} is used.
 Here, the observed data $y(t)$ is split into two
@@ -380,7 +381,7 @@ clear picture of which model order should be used; the model order at which
 increasing $n$ doesn't lower $W(n)$ particularly much.
 
 We denote quantity $\val{y}(t) - \val{\hat{y}}(t;\hat{\theta}^{(n)})$ as
-$\epsilon(t;\hat{\theta}^{(n)})$. This quantity can equivalently calculated
+$\epsilon(t;\hat{\theta}^{(n)})$. This quantity can equivalently be calculated
 as
 \begin{equation}
     \epsilon(t;\hat{\theta}^{(n)}) =
@@ -393,12 +394,14 @@ $\epsilon(t;\hat{\theta}^{(n)})$ can be calculated by filtering the validation
 data with the inverse of the filter created by the estimated AR-model.
 
 \subsubsection{Model validation}
+\label{ssub:modelvalidation}
 The models can be validated by again using cross validation. Using residual
 $\epsilon(t;\hat{\theta}^{(n)})$, a \textit{residual whiteness test} can be
 performed. The residual should be approximately white if the model is accurate,
 which can be tested by checking that the probability of
 $\epsilon(t;\hat{\theta}^{(n)})$ changing sign from one sample to the next is
-about 0.5.
+about 0.5. This is because each sample of a white process is uncorrelated with
+any other sample, giving a random and unbiased sign change probability.
 
 The whiteness of the residual can also be tested by calculating it's covariance
 function $R_{\epsilon\epsilon}(k)$. The function should approximately be equal
@@ -411,12 +414,38 @@ can be filtered with the estimated AR-model for a vowel to simulate it.
 
 \subsection{Method}
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
-long.
+long. Both of these recordings were split into estimation and validation parts,
+as described in Section~\ref{ssub:modelorderestimation}. The function 
+\code{arordercv.m} from \cite{signalproc} implements the approach described in 
+that section find the suitable model order for the `a' and `o' vowels, and is
+listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
+vowel, and the model order at which an increase in the order doesn't
+significantly decrease $W(n)$ any more.
+
+The models were then validated using residual whiteness testing and plotting of
+covariance functions. The residuals were calculated according to the theory in
+Section~\ref{ssub:modelvalidation}. The function \code{sign\_change\_prob.m}
+listed in Appendix~\ref{code:signchangeprob}
+measures the probability of each sample changing it's sign for the next
+sample, which according to Section~\ref{ssub:modelvalidation} should be about
+0.5. The covariance functions were calculated by convolving the residuals with
+a time-reversed version of themselves.
+
+The vowels were simulated by first plotting the raw signals of each vowel, and
+from the figure deduce the periods of the signals. Pulse-train signals of these
+periods were then created, and filtered through the AR-models with appropriate
+orders estimated with \code{sig2ar.m}, to create the simulations of each vowel.
+
+The code performing these operations is listed in Appendix~\ref{code:vowels}.
 
 \subsection{Results}
 \subsection{Discussion}
 
 \section{Assignment 3 --- GSM}
+
+In this assignment, a simple version of the type of speech encoding used in GSM
+(Global System for Mobile Communications) was to be implemented. This
+implementation was then to be used to encode a short recorded sentence.
 
 \subsection{Theory}
 \subsection{Method}
@@ -448,6 +477,8 @@ long.
     \lstinputlisting[language=Matlab]{../sig2ar.m}
     \subsection{arordercv.m}\label{code:arordercv}
     \lstinputlisting[language=Matlab]{../arordercv.m}
+    \subsection{sign\_change\_prob.m}\label{code:signchangeprob}
+    \lstinputlisting[language=Matlab]{../sign_change_prob.m}
     \subsection{whistle.m}\label{code:whistle}
     \lstinputlisting[language=Matlab]{../whistle.m}
     \subsection{vowels.m}\label{code:vowels}
