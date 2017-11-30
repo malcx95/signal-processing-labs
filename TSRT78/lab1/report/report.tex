@@ -517,9 +517,28 @@ the original signal into smaller parts and then try to model each such
 part individually. The overall number of parameters needed to model the
 whole signal increases but this should make it possible to generate a
 signal that resembles the original one. The theory for estimating a
-model is similar to that for vowels in section \ref{}.
+model is similar to that for vowels in section \ref{sub:voweltheory}.
 
+As with vowels it is expected that spoken language is best generated
+with a pulse train as input to the estimated model. Because the signal
+is divided into many small parts, it is now impossible to manually choose
+the amplitude and the period of the pulse train needed to generate to
+signal. These can be found automatically be analyzing the autocorrelation
+of the small part that is being modeled. The time delay of the first
+residual peak in this function will give the approximate period of the
+signal and squared root of its amplitude will be the needed amplitude of
+the pulse train.
 
+To make sure that the estimated model is not heavily biased, the signal
+being modeled should be detrended before estimation. This means in this
+case subtracting the mean of the signal to make sure that the
+signal has $0$ mean.
+
+Except for these small differences, the process of estimating an AR
+model for the signal is done as before. The model parameters together
+with the period and amplitude of the pulse train for each small part
+of the signal is all that should be needed in order to generate a new
+signal that resembles the original one.
 
 \subsection{Method}
 \subsection{Results}
