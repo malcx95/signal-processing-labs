@@ -381,6 +381,7 @@ modeled, using AR-models of suitable orders. The models were then
 simulated using a suitable input signal.
 
 \subsection{Theory}
+\label{sub:voweltheory}
 
 In this section, the theoretical background behind the vowel assignment is
 explained.
@@ -459,8 +460,8 @@ can be filtered with the estimated AR-model for a vowel to simulate it.
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
 long, in the same way as described in Section~\ref{sub:whistlemethod}.
 Both of these recordings were split into estimation and validation parts,
-as described in Section~\ref{ssub:modelorderestimation}. The function 
-\code{arordercv} from \cite{signalproc} implements the approach described in 
+as described in Section~\ref{ssub:modelorderestimation}. The function
+\code{arordercv} from \cite{signalproc} implements the approach described in
 that section find the suitable model order for the `a' and `o' vowels, and is
 listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
 vowel, and the model order at which an increase in the order doesn't
@@ -601,8 +602,107 @@ In this assignment, a simple version of the type of speech encoding used in GSM
 implementation was then to be used to encode a short recorded sentence.
 
 \subsection{Theory}
+\label{sub:vimtheory}
+
+The main difference between trying to model vowels and spoken language
+is the ammount of information that is contained within the signal.
+Therefore it would be impossible to model to whole signal with a
+single AR model. One approach to handle this problem is to divide
+the original signal into smaller parts and then try to model each such
+part individually. The overall number of parameters needed to model the
+whole signal increases but this should make it possible to generate a
+signal that resembles the original one. The theory for estimating a
+model is similar to that for vowels in section \ref{sub:voweltheory}.
+
+As with vowels it is expected that spoken language is best generated
+with a pulse train as input to the estimated model. Because the signal
+is divided into many small parts, it is now impossible to manually choose
+the amplitude and the period of the pulse train needed to generate to
+signal. These can be found automatically be analyzing the autocorrelation
+of the small part that is being modeled. The time delay of the first
+residual peak in this function will give the approximate period of the
+signal and squared root of its amplitude will be the needed amplitude of
+the pulse train.
+
+To make sure that the estimated model is not heavily biased, the signal
+being modeled should be detrended before estimation. This means in this
+case subtracting the mean of the signal to make sure that the
+signal has $0$ mean.
+
+When estimating a model for speech it is also possible for the poles
+of the model to be outside of the unit circle, thus resulting in an
+unstable system. To handle this problem we can check the poles of the
+resulting model and move them inside the unit circle so that their
+distance to the circle is the same as before.
+
+Except for these small differences, the process of estimating an AR
+model for the signal is done as before. The model parameters together
+with the period and amplitude of the pulse train for each small part
+of the signal is all that should be needed in order to generate a new
+signal that resembles the original one.
+
 \subsection{Method}
+As before, the first step of this assignment was to record the audio
+signal that would be analyzed and modeled. As with the other signals
+this recording was done in Audacity \cite{audacity} and then cut to
+the desired length. For the purpose of this assignment spoken language
+was needed, so the sentence ``Vim is much easier than notepad!'' was
+recorded. A graph of this recording is shown in Figure \ref{3:rawvim}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/vim_orig.pdf}
+  \caption{Recording of spoken language in the time domain}
+  \label{3:rawvim}
+
+\end{figure}
+
+The first thing that was done with the recording was to split it up into
+small parts of 160 samples each. Each part was then saved in a vector
+of such small signal segments.
+
+A loop was then implemented that iterated through all of the segments.
+Each iteration created a model for each of the segments. All the models
+and parameters needed to later recreate the signal were also saved in
+vectors.
+
+The same steps were performed on all parts each iteration. First the
+signal segment was detrended. Then an AR(8) model of the segment was
+estimated as before. When a model has been computed, its poles are
+analyzed and moved inside the unit circle if needed. Once the poles
+have been rectified, the segment was correlated with itself so that
+the needed amplitude and period of the pulse train could be computed
+as described in \ref{sub:vimtheory}. Because it was desired to listen
+to the recreated signal, at the end of each iteration a new signal
+segment was generated from each estimated model and put together into
+a new whole signal. This was done by creating the needed pulse train
+and inputing it into the estimated model. After the loop it was then
+possible to listen to the result of modeling the signal segments with
+AR(8) models. The generated audio signal is shown in Figure
+\ref{3:genvim}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/vim_gen.pdf}
+  \caption{Generated audio signal of the original spoken sentence}
+  \label{3:genvim}
+
+\end{figure}
+
+Once this was done, the whole process was repeated but the amplitude
+of all the pulse trains was set to $1$ and the resulting audio signal
+was played and compared to the previously generated one.
+
+Lastly, an experiment was done to vary the model order and listen to
+the result to see how the quality of the sound changed.
+
 \subsection{Results}
+
+
 \subsection{Discussion}
 
 \section{Conclusion}
