@@ -22,12 +22,13 @@ oval = o(N1 + 1:end);
 figure;
 subplot(2, 1, 1);
 plot(a); % title('Raw audio of a') 
-print('./report/pictures/raw_a_audio.pdf', '-dpdf');
 % One period is 78 samples
 
 subplot(2, 1, 2);
 plot(o); % title('Raw audio of o')
+xlim([0 N])
 print('./report/pictures/raw_o_audio.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/raw_o_audio.pdf ./report/pictures/raw_o_audio.pdf')
 % One period is 81 samples
 
 % Determing appropriate model order
@@ -70,6 +71,7 @@ eacorr = conv(ea, ea(end:-1:1));
 figure;
 plot(eacorr);
 print('./report/pictures/acorr_a.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/acorr_a.pdf ./report/pictures/acorr_a.pdf')
 % title('Auto covariance R_{\epsilon\epsilon}(k) for a')
 
 % Compute O's residual
@@ -84,6 +86,7 @@ eocorr = conv(eo, eo(end:-1:1));
 figure;
 plot(eocorr);
 print('./report/pictures/acorr_o.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/acorr_o.pdf ./report/pictures/acorr_o.pdf')
 % title('Auto covariance R_{\epsilon\epsilon}(k) for o')
 
 iaest = iddata(aest, [], 1/fs);
@@ -95,6 +98,7 @@ ma = ar(iaest, Aorder);
 figure
 compare(iaval, ma, 1)
 print('./report/pictures/compare_a.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/compare_a.pdf ./report/pictures/compare_a.pdf')
 
 ioest = iddata(oest, [], 1/fs);
 ioval = iddata(oval, [], 1/fs);
@@ -103,6 +107,7 @@ mo = ar(ioest, Oorder);
 figure
 compare(ioval, mo, 1)
 print('./report/pictures/compare_o.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/compare_o.pdf ./report/pictures/compare_o.pdf')
 
 %%
 
@@ -138,6 +143,7 @@ subplot(2, 1, 2)
 A = fft(a);
 plot(w, abs(A)); 
 print('./report/pictures/apreddft.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/apreddft.pdf ./report/pictures/apreddft.pdf')
 
 figure
 
@@ -151,4 +157,5 @@ subplot(2, 1, 2)
 O = fft(o);
 plot(w, abs(O)); 
 print('./report/pictures/opreddft.pdf', '-dpdf');
+system('pdfcrop ./report/pictures/opreddft.pdf ./report/pictures/opreddft.pdf')
 
