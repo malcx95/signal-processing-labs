@@ -497,7 +497,7 @@ a time-reversed version of themselves.
 
 The models were also validated by comparing the prediction of the validation
 data for each vowel with the observed validation data for each vowel. This was
-done using MATLAB's \code{compare} function. 
+done using MATLAB's \code{compare} function.
 
 The vowels were simulated by first plotting the raw signals of each vowel, and
 from the figure deduce the periods of the signals. These plots are found in
@@ -522,7 +522,7 @@ The code performing these operations is listed in Appendix~\ref{code:vowels}.
 The appropriate model order for the 'a' vowel was selected as 10, from Figure
 \ref{fig:wna}, since $W(n)$ is quite flat around 10, while still giving some
 margin from the steep "knee" of $W(n)$. The model order for 'o' was selected
-from \ref{fig:wno} as 12, since this is gives the lowest value for $W(n)$ 
+from \ref{fig:wno} as 12, since this is gives the lowest value for $W(n)$
 when testing orders between 1 and 50.
 
 The validation by residual whiteness testing gave a sign change probability for
@@ -572,7 +572,7 @@ the 'a' and 'o' models are shown in Figure \ref{fig:comparea} and Figure
 The period of the 'a' vowel was read as 78 samples, and 81 samples for the 'o'
 from Figure \ref{fig:rawaudio}. Using this information and the models,
 simulations of the 'a' and 'o' vowels were created, the amplitude spectra of
-which are shown in comparison to the spectra of the recorded vowels in Figure 
+which are shown in comparison to the spectra of the recorded vowels in Figure
 \ref{fig:adft} and Figure \ref{fig:odft}.
 
 \begin{figure}[h!]
@@ -701,7 +701,17 @@ Lastly, an experiment was done to vary the model order and listen to
 the result to see how the quality of the sound changed.
 
 \subsection{Results}
-
+The generated signal as a result of the assignment resembled the
+original spoken sentece to some extent. It was possible to hear and
+easily distinguish what was being said. The audio, though, was heavily
+distorted and sounded very synthetic. It did not even closely resemble
+the voice of the recorded person. Setting the amplitude of the pulse trains
+to $1$ distorted the audio even further, to the point where it was not
+even possible to hear what was being said anymore. Varying the model order
+did not improve the quality of the audio much. Lowering the model order
+lowered the quality of the resulting signal as expected. Increasing the
+order instead did not result in any significant improvement of the
+quality and in some cases the audio even sounded worse.
 
 \subsection{Discussion}
 
