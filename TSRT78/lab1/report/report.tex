@@ -246,7 +246,7 @@ AR-model generated from the estimation data. This means that $W(n)$ measures
 how much the validation data differs from the predicted validation data, when
 using an AR-model of order $n$. By plotting $W(n)$, a
 clear picture of which model order should be used; the model order at which
-increasing $n$ doesn't lower $W(n)$ particularly much.
+increasing $n$ doesn't decrease $W(n)$ particularly much.
 
 We denote quantity $\val{y}(t) - \val{\hat{y}}(t;\hat{\theta}^{(n)})$ as
 $\epsilon(t;\hat{\theta}^{(n)})$. This quantity can equivalently be calculated
@@ -275,6 +275,10 @@ The whiteness of the residual can also be tested by calculating it's covariance
 function $R_{\epsilon\epsilon}(k)$. The function should approximately be equal
 to $\lambda\delta(t)$, where $\lambda$ is some non-zero constant.
 
+Another way of validating the model is to simply perform a one-step-ahead
+prediction of the validation data, using the estimated model from the
+estimation data, and compare it with the observed validation data.
+
 \subsubsection{Simulating}
 Since a vowel is a periodic signal, it is suitable to simulate them using an
 impulse train with the same period as the vowel to simulate. This pulse train
@@ -284,29 +288,36 @@ can be filtered with the estimated AR-model for a vowel to simulate it.
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
 long. Both of these recordings were split into estimation and validation parts,
 as described in Section~\ref{ssub:modelorderestimation}. The function 
-\code{arordercv.m} from \cite{signalproc} implements the approach described in 
+\code{arordercv} from \cite{signalproc} implements the approach described in 
 that section find the suitable model order for the `a' and `o' vowels, and is
 listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
 vowel, and the model order at which an increase in the order doesn't
-significantly decrease $W(n)$ any more.
+significantly decrease $W(n)$ any more is identified. A model order slightly
+higher than this is selected, to have some margin.
 
 The models were then validated using residual whiteness testing and plotting of
 covariance functions. The residuals were calculated according to the theory in
-Section~\ref{ssub:modelvalidation}. The function \code{sign\_change\_prob.m}
+Section~\ref{ssub:modelvalidation}. The function \code{sign\_change\_prob}
 listed in Appendix~\ref{code:signchangeprob}
 measures the probability of each sample changing it's sign for the next
 sample, which according to Section~\ref{ssub:modelvalidation} should be about
 0.5. The covariance functions were calculated by convolving the residuals with
 a time-reversed version of themselves.
 
+The models were also validated by comparing the prediction of the validation
+data for each vowel with the observed validation data for each vowel. This was
+done using MATLAB's \code{compare} function.
+
 The vowels were simulated by first plotting the raw signals of each vowel, and
 from the figure deduce the periods of the signals. Pulse-train signals of these
 periods were then created, and filtered through the AR-models with appropriate
-orders estimated with \code{sig2ar.m}, to create the simulations of each vowel.
+orders estimated with \code{sig2ar}, to create the simulations of each vowel.
 
 The code performing these operations is listed in Appendix~\ref{code:vowels}.
 
 \subsection{Results}
+
+
 \subsection{Discussion}
 
 \section{Assignment 3 --- GSM}

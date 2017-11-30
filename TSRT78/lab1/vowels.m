@@ -1,3 +1,5 @@
+clear
+close all
 
 [ao, fs] = audioread('ao.wav');
 
@@ -15,71 +17,92 @@ aval = a(N1 + 1:end);
 oest = o(1:N1);
 oval = o(N1 + 1:end);
 
-arordercv(aest, aval, 10);
-% arordercv(oest, oval, 50);
+% Determine the period of the signals by 
+% looking in their plots
+figure;
+subplot(2, 1, 1);
+plot(a); % title('Raw audio of a') 
+print('./report/pictures/raw_a_audio.pdf', '-dpdf');
+% One period is 78 samples
 
-% For a-sound, order 9 should be used
-% For o-sound, order 2 should be used
+subplot(2, 1, 2);
+plot(o); % title('Raw audio of o')
+print('./report/pictures/raw_o_audio.pdf', '-dpdf');
+% One period is 81 samples
 
-%%
+% Determing appropriate model order
+arordercv(aest, aval, 50);
+arordercv(oest, oval, 50);
+
+% For a-sound, order 10 should be used
+% For o-sound, order 12 should be used
+Aorder = 10;
+Oorder = 12;
+
+%% Estimating the model
 
 N = length(a);
 Nval = length(aval);
 
 w = (1/N*(fs))*[0:N-1];
 
-% figure(1)
-% 
-% A = fft(a);
-% plot(w, abs(A)); title('DFT of a')
-% 
-% figure(2)
-% 
-% O = fft(o);
-% plot(w, abs(O)); title('DFT of o')
-% 
-
-[tha P lama epsi] = sig2ar(aest, 9);
+[tha P lama epsi] = sig2ar(aest, Aorder);
 
 Ba = 1;
 Aa = [1; tha]';
 
-var = sqrt(lama);
-e = randn(Nval, 1) * var;
-apred = filter(Ba, Aa, e);
-
-
-[tho P lamo epsi] = sig2ar(oest, 2);
+[tho P lamo epsi] = sig2ar(oest, Oorder);
 
 Bo = 1;
 Ao = [1; tho]';
 
-var = sqrt(lamo);
-eo = randn(Nval, 1) * var;
-opred = filter(Bo, Ao, eo);
+%% Validation
 
-figure(1)
-subplot(2, 1, 1)
+% Compute A's residual
+ea = filter(Aa, Ba, aval);
 
-A = fft(a);
-plot(w, abs(A)); title('DFT of a')
+% Calculate the probability of it
+% changing sign from one sample to the next
+asignchange = sign_change_prob(ea)
 
+% Compute covariance functions
+eacorr = conv(ea, ea(end:-1:1));
+figure;
+plot(eacorr);
+print('./report/pictures/acorr_a.pdf', '-dpdf');
+% title('Auto covariance R_{\epsilon\epsilon}(k) for a')
 
-subplot(2, 1, 2)
-w = (1/Nval*(fs))*[0:Nval-1];
-APRED = fft(apred);
-plot(w, abs(APRED)); title('DFT of a')
+% Compute O's residual
+eo = filter(Ao, Bo, oval);
 
-% am = ar(aest, 9);
-% om = ar(oest, 2);
+% Calculate the probability of it
+% changing sign from one sample to the next
+osignchange = sign_change_prob(eo)
 
-%%
-% Determine the period of the signals by looking in their plots
-figure(2);
-subplot(2, 1, 1);
-plot(a); % One period is 78 samples
-subplot(2, 1, 2);
-plot(o); % One period is 81 samples
+% Compute covariance functions
+eocorr = conv(eo, eo(end:-1:1));
+figure;
+plot(eocorr);
+print('./report/pictures/acorr_o.pdf', '-dpdf');
+% title('Auto covariance R_{\epsilon\epsilon}(k) for o')
+
+iaest = iddata(aest, [], 1/fs);
+iaval = iddata(aval, [], 1/fs);
+ia = iddata(a, [], 1/fs);
+
+ma = ar(iaest, Aorder);
+
+figure
+compare(iaval, ma, 1)
+print('./report/pictures/compare_a.pdf', '-dpdf');
+
+ioest = iddata(oest, [], 1/fs);
+ioval = iddata(oval, [], 1/fs);
+
+mo = ar(ioest, Oorder);
+figure
+compare(ioval, mo, 1)
+print('./report/pictures/compare_o.pdf', '-dpdf');
 
 %%
 
@@ -92,13 +115,6 @@ apt(1:Pa:end) = sqrt(Pa * lama);
 
 % Prediction of a with pulse train
 apred = filter(Ba, Aa, apt);
-APRED = fft(apred);
-
-figure(3);
-subplot(2, 1, 1);
-plot(w, abs(fft(a)));
-subplot(2, 1, 2);
-plot(w, abs(APRED));
 
 % Pulse train for o
 Po = 81;
@@ -107,44 +123,32 @@ opt(1:Po:end) = sqrt(Po * lamo);
 
 % Prediction of o with pulse train
 opred = filter(Bo, Ao, opt);
-OPRED = fft(opred);
 
-figure(4);
-subplot(2, 1, 1);
-plot(w, abs(fft(o)));
-subplot(2, 1, 2);
+%% DFT's
+
+figure
+
+subplot(2, 1, 1)
+% w = (1/Nval*(fs))*[0:Nval-1];
+
+APRED = fft(apred);
+plot(w, abs(APRED));
+
+subplot(2, 1, 2)
+A = fft(a);
+plot(w, abs(A)); 
+print('./report/pictures/apreddft.pdf', '-dpdf');
+
+figure
+
+subplot(2, 1, 1)
+% w = (1/Nval*(fs))*[0:Nval-1];
+
+OPRED = fft(opred);
 plot(w, abs(OPRED));
 
-%% Validation
+subplot(2, 1, 2)
+O = fft(o);
+plot(w, abs(O)); 
+print('./report/pictures/opreddft.pdf', '-dpdf');
 
-ea = filter(Aa, Ba, aval);
-eacorr = conv(ea, ea(end:-1:1));
-figure(5);
-plot(eacorr);
-
-eo = filter(Ao, Bo, oval);
-eocorr = conv(eo, eo(end:-1:1));
-figure(6);
-plot(eocorr);
-
-%% Test with iddata
-
-iaest = iddata(aest, [], 1/fs);
-iaval = iddata(aval, [], 1/fs);
-ia = iddata(a, [], 1/fs);
-
-ma = ar(iaest, 9);
-ap = predict(ma, iaval, 1);
-figure(1)
-plot(ap.OutputData)
-
-figure(2)
-compare(iaval, ma, 1)
-
-ioest = iddata(oest, [], 1/fs);
-ioval = iddata(oval, [], 1/fs);
-
-% mo = ar(ioest, 9);
-% op = predict(ma, ioval, 2);
-% figure(1)
-% plot(op.OutputData)

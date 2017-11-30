@@ -8,7 +8,7 @@ end
 
 if nargout == 0
     figure
-    plot(1:nmax, W, '-o')
+    plot(1:nmax, W, '-o');
 else
     [~, n] = min(W);
 end
