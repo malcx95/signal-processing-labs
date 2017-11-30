@@ -453,8 +453,12 @@ estimation data, and compare it with the observed validation data.
 
 \subsubsection{Simulating}
 Since a vowel is a periodic signal, it is suitable to simulate them using an
-impulse train with the same period as the vowel to simulate. This pulse train
-can be filtered with the estimated AR-model for a vowel to simulate it.
+impulse train with the same period as the vowel to simulate. The amplitude
+of this pulse train should be $\sqrt{\lambda T}$ where $T$ is the period and
+$\lambda$ is the signal power of the vowel (estimated in conjunction with the
+estimation of the AR-model).
+This pulse train can be filtered with the estimated AR-model for a vowel 
+to simulate it.
 
 \subsection{Method}
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
@@ -467,14 +471,14 @@ listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
 vowel, and the model order at which an increase in the order doesn't
 significantly decrease $W(n)$ any more is identified. A model order slightly
 higher than this was selected, to have some margin. The plot of $W(n)$ for the
-'a' and 'o' vowels are shown in Figure \ref{fig:wna} and Figure \ref{fig:wno},
+`a' and `o' vowels are shown in Figure \ref{fig:wna} and Figure \ref{fig:wno},
 respectively.
 
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/wna.pdf}
-    \caption{Plot of $W(n)$ for the vowel 'a'}
+    \caption{Plot of $W(n)$ for the vowel `a'}
     \label{fig:wna}
 \end{figure}
 
@@ -482,7 +486,7 @@ respectively.
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/wno.pdf}
-    \caption{Plot of $W(n)$ for the vowel 'o'}
+    \caption{Plot of $W(n)$ for the vowel `o'}
     \label{fig:wno}
 \end{figure}
 
@@ -501,8 +505,9 @@ done using MATLAB's \code{compare} function.
 
 The vowels were simulated by first plotting the raw signals of each vowel, and
 from the figure deduce the periods of the signals. These plots are found in
-Figure \ref{fig:rawaudio}. Pulse-train signals of these
-periods were then created, and filtered through the AR-models with appropriate
+Figure \ref{fig:rawaudio}. Pulse-train signals with these
+periods $T$ and amplitudes $\sqrt{\lambda T}$ were then created,
+and filtered through the AR-models with appropriate
 orders estimated with \code{sig2ar}, to create the simulations of each vowel.
 These simulations were played back using the MATLAB command \code{sound}.
 
@@ -510,7 +515,7 @@ These simulations were played back using the MATLAB command \code{sound}.
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/raw_o_audio.pdf}
-    \caption{Plot of 1000 samples of the raw 'a' audio (above) and the 'o'
+    \caption{Plot of 1000 samples of the raw `a' audio (above) and the `o'
     (below)}
     \label{fig:rawaudio}
 \end{figure}
@@ -519,23 +524,23 @@ The code performing these operations is listed in Appendix~\ref{code:vowels}.
 
 \subsection{Results}
 
-The appropriate model order for the 'a' vowel was selected as 10, from Figure
+The appropriate model order for the `a' vowel was selected as 10, from Figure
 \ref{fig:wna}, since $W(n)$ is quite flat around 10, while still giving some
-margin from the steep "knee" of $W(n)$. The model order for 'o' was selected
+margin from the steep "knee" of $W(n)$. The model order for `o' was selected
 from \ref{fig:wno} as 12, since this is gives the lowest value for $W(n)$ 
 when testing orders between 1 and 50.
 
 The validation by residual whiteness testing gave a sign change probability for
-the residual of 'a' as 0.4421, and for the residual of 'o' 0.4375. The
+the residual of `a' as 0.4421, and for the residual of `o' 0.4375. The
 covariance functions for the
-residuals of 'a' and 'o' are shown in Figure \ref{fig:acorra} and Figure
+residuals of `a' and `o' are shown in Figure \ref{fig:acorra} and Figure
 \ref{fig:acorro} respectively.
 
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/acorr_a.pdf}
-    \caption{Plot of the covariance function $R_{\epsilon\epsilon}(k)$ for 'a'}
+    \caption{Plot of the covariance function $R_{\epsilon\epsilon}(k)$ for `a'}
     \label{fig:acorra}
 \end{figure}
 
@@ -543,21 +548,21 @@ residuals of 'a' and 'o' are shown in Figure \ref{fig:acorra} and Figure
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/acorr_o.pdf}
-    \caption{Plot of the covariance function $R_{\epsilon\epsilon}(k)$ for 'o'}
+    \caption{Plot of the covariance function $R_{\epsilon\epsilon}(k)$ for `o'}
     \label{fig:acorro}
 \end{figure}
 
-For the 'a' vowel, the prediction comparison yielded an 86.42\% matching
+For the `a' vowel, the prediction comparison yielded an 86.42\% matching
 between the model prediction and the validation data. This number was 92.79\%
-for the 'o'. The comparison plots for
-the 'a' and 'o' models are shown in Figure \ref{fig:comparea} and Figure
+for the `o'. The comparison plots for
+the `a' and `o' models are shown in Figure \ref{fig:comparea} and Figure
 \ref{fig:compareo} respectively.
 
 \begin{figure}[h!]
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/compare_a.pdf}
-    \caption{Plot of the prediction comparison of the 'o' model}
+    \caption{Plot of the prediction comparison of the `o' model}
     \label{fig:comparea}
 \end{figure}
 
@@ -565,13 +570,13 @@ the 'a' and 'o' models are shown in Figure \ref{fig:comparea} and Figure
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/compare_o.pdf}
-    \caption{Plot of the prediction comparison of the 'o' model}
+    \caption{Plot of the prediction comparison of the `o' model}
     \label{fig:compareo}
 \end{figure}
 
-The period of the 'a' vowel was read as 78 samples, and 81 samples for the 'o'
+The period of the `a' vowel was read as 78 samples, and 81 samples for the `o'
 from Figure \ref{fig:rawaudio}. Using this information and the models,
-simulations of the 'a' and 'o' vowels were created, the amplitude spectra of
+simulations of the `a' and `o' vowels were created, the amplitude spectra of
 which are shown in comparison to the spectra of the recorded vowels in Figure 
 \ref{fig:adft} and Figure \ref{fig:odft}.
 
@@ -579,8 +584,8 @@ which are shown in comparison to the spectra of the recorded vowels in Figure
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/apreddft.pdf}
-    \caption{Amplitude spectrum of the estimated 'a' (above) and recorded
-    'a' (below)}
+    \caption{Amplitude spectrum of the estimated `a' (above) and recorded
+    `a' (below)}
     \label{fig:adft}
 \end{figure}
 
@@ -588,16 +593,42 @@ which are shown in comparison to the spectra of the recorded vowels in Figure
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/opreddft.pdf}
-    \caption{Amplitude spectrum of the estimated 'o' (above) and recorded
-    'o' (below)}
+    \caption{Amplitude spectrum of the estimated `o' (above) and recorded
+    `o' (below)}
     \label{fig:odft}
 \end{figure}
 
 \subsection{Discussion}
 
+The covariance functions of the residuals of the signals in Figures 
+\ref{fig:acorra} and \ref{fig:acorro} are small for $k \neq 0$ and
+high for $k=0$, and the probability of the residuals changing sign from
+one sample to the next are close to 0.5, indicating that the residuals are
+approximately white. This combined with the fact that the model predictions
+matched 86.42\% and 92.79\% with the validation data means that the models
+were quite good. The reasons why the residuals weren't perfectly white and
+the predictions didn't match 100\% is because the recordings weren't perfectly
+stationary in the sense that the amplitude and pitch of the voice slightly
+changed throughout the recording and that the model is only an estimate; some
+information is lost.
+
 The audio of the simulated vowels are easily identifiable as the vowels
-'a' and 'o', and the amplitude spectra of these in Figures \ref{fig:adft} and 
-\ref{fig:odft} show close resemblence to the recorded spectra.
+`a' and `o', and the amplitude spectra of these in Figures \ref{fig:adft} and 
+\ref{fig:odft} show close resemblence to the spectra of the recorded vowels.
+Since we can simulate the vowels using AR-models of orders 10 and 12, this
+means we can very effectively represent these vowels using only 11 and 13
+numbers (the period and amplitude of the signals need also be known).
+
+Looking at the amplitude spectra of the simulated vowels compared to the
+recorded ones, one can deduce that it should be possible to estimate the 
+suitable model order by identifying the number of large peaks in the
+spectrum. Since the AR-model order corresponds to the number of poles used,
+which corresponds to the number of peaks in the model's impulse response. Since
+impulse trains are used as inputs to the models, there is a clear connection
+between the number of peaks in the recorded signals' spectrums and the
+suitable model orders to use. This means that the suitable model order
+can be estimated by counting the number of significant peaks in the
+recorded audio's spectrum.
 
 \section{Assignment 3 --- GSM}
 
