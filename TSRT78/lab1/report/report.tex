@@ -380,6 +380,7 @@ modeled, using AR-models of suitable orders. The models were then
 simulated using a suitable input signal.
 
 \subsection{Theory}
+\label{sub:voweltheory}
 
 In this section, the theoretical background behind the vowel assignment is
 explained.
@@ -457,8 +458,8 @@ can be filtered with the estimated AR-model for a vowel to simulate it.
 \subsection{Method}
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
 long. Both of these recordings were split into estimation and validation parts,
-as described in Section~\ref{ssub:modelorderestimation}. The function 
-\code{arordercv} from \cite{signalproc} implements the approach described in 
+as described in Section~\ref{ssub:modelorderestimation}. The function
+\code{arordercv} from \cite{signalproc} implements the approach described in
 that section find the suitable model order for the `a' and `o' vowels, and is
 listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
 vowel, and the model order at which an increase in the order doesn't
@@ -507,6 +508,19 @@ In this assignment, a simple version of the type of speech encoding used in GSM
 implementation was then to be used to encode a short recorded sentence.
 
 \subsection{Theory}
+
+The main difference between trying to model vowels and spoken language
+is the ammount of information that is contained within the signal.
+Therefore it would be impossible to model to whole signal with a
+single AR model. One approach to handle this problem is to divide
+the original signal into smaller parts and then try to model each such
+part individually. The overall number of parameters needed to model the
+whole signal increases but this should make it possible to generate a
+signal that resembles the original one. The theory for estimating a
+model is similar to that for vowels in section \ref{}.
+
+
+
 \subsection{Method}
 \subsection{Results}
 \subsection{Discussion}
