@@ -714,6 +714,25 @@ order instead did not result in any significant improvement of the
 quality and in some cases the audio even sounded worse.
 
 \subsection{Discussion}
+The fact that it is hard to use the estimated models to generates the
+original signal is somewhat expected because of the complexity of the
+signal that is being modeled. A model described by only a few parameters
+cannot confidently generate an audio signal so compplex such as speech.
+Also the fact that increasing the order of the estimated models did not
+result in any significant increase in quality might mean that even the
+type of the model used might not be appropriate for this purpose. That
+the audio quality in some cases was experienced as worse when increasing
+the order of the models might be beacause a lower residual error does
+not necessarily mean that the signal sounds better. The experienced
+quality of the sound is a subjective measure and it is hard to relate
+to subtle changes in the modeling process.
+
+Inputting pulse trains of constant aplitude $1$ into the models results
+in a very distorted audio signal. This is as expected since this means
+that the same ammount of energy is inputed in all of the signal segments
+while the energy in the different parts of the original signal might vary
+significantly. Considering these results, other methods of modeling might
+be desired when modeling the sound of speech.
 
 \section{Conclusion}
 
