@@ -21,7 +21,11 @@ oval = o(N1 + 1:end);
 
 % Determing appropriate model order
 arordercv(aest, aval, 50);
+xlabel('Model order n')
+ylabel('W(n)')
 arordercv(oest, oval, 50);
+xlabel('Model order n')
+ylabel('W(n)')
 
 Aorder = 10;
 Oorder = 12;
@@ -56,6 +60,8 @@ asignchange = sign_change_prob(ea)
 eacorr = conv(ea, ea(end:-1:1));
 figure;
 plot(eacorr);
+xlabel('k')
+ylabel('R_{\epsilon\epsilon}(k)')
 xlim([0 length(eacorr)])
 
 % Compute O's residual
@@ -69,6 +75,8 @@ osignchange = sign_change_prob(eo)
 eocorr = conv(eo, eo(end:-1:1));
 figure;
 plot(eocorr);
+xlabel('k')
+ylabel('R_{\epsilon\epsilon}(k)')
 xlim([0 length(eocorr)])
 
 
@@ -97,10 +105,14 @@ compare(ioval, mo, 1)
 figure;
 subplot(2, 1, 1);
 plot(a);
+xlabel('Sample k')
+ylabel('Amplitude')
 xlim([2000 3000])
 
 subplot(2, 1, 2);
 plot(o);
+xlabel('Sample k')
+ylabel('Amplitude')
 xlim([2000 3000])
 
 % Pulse train for a
@@ -129,10 +141,14 @@ subplot(2, 1, 1)
 
 APRED = fft(apred);
 plot(w(1:floor(N/2)), abs(APRED(1:floor(N/2))));
+xlabel('Frequency [Hz]')
+ylabel('Amplitude spectrum')
 
 subplot(2, 1, 2)
 A = fft(a);
 plot(w(1:floor(N/2)), abs(A(1:floor(N/2)))); 
+xlabel('Frequency [Hz]')
+ylabel('Amplitude spectrum')
 
 figure
 
@@ -140,8 +156,12 @@ subplot(2, 1, 1)
 
 OPRED = fft(opred);
 plot(w(1:floor(N/2)), abs(OPRED(1:floor(N/2))));
+xlabel('Frequency [Hz]')
+ylabel('Amplitude spectrum')
 
 subplot(2, 1, 2)
 O = fft(o);
 plot(w(1:floor(N/2)), abs(O(1:floor(N/2)))); 
+xlabel('Frequency [Hz]')
+ylabel('Amplitude spectrum')
 
