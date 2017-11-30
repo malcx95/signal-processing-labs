@@ -202,6 +202,7 @@ of the estimated model. The closer these poles are to the unit circle
 the more pure the signal is.
 
 \subsection{Method}
+\label{sub:whistlemethod}
 The first step of the laboratory was to record the sound of a person
 whistling. This was done using the program \textit{Audacity}
 \cite{audacity} at a sampling frequency of 8000 Hz. The recording was then
@@ -456,14 +457,25 @@ can be filtered with the estimated AR-model for a vowel to simulate it.
 
 \subsection{Method}
 The vowels `a' and `o' were recorded and trimmed such that they are two seconds
-long. Both of these recordings were split into estimation and validation parts,
+long, in the same way as described in Section~\ref{sub:whistlemethod}.
+Both of these recordings were split into estimation and validation parts,
 as described in Section~\ref{ssub:modelorderestimation}. The function 
 \code{arordercv} from \cite{signalproc} implements the approach described in 
 that section find the suitable model order for the `a' and `o' vowels, and is
 listed in Appendix~\ref{code:arordercv}. This code plots $W(n)$ for each
 vowel, and the model order at which an increase in the order doesn't
 significantly decrease $W(n)$ any more is identified. A model order slightly
-higher than this is selected, to have some margin.
+higher than this was selected, to have some margin.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/raw_o_audio.pdf}
+  \caption{Fourier transform of the whistle signal}
+  \label{fig:rawaaudio}
+
+\end{figure}
 
 The models were then validated using residual whiteness testing and plotting of
 covariance functions. The residuals were calculated according to the theory in
@@ -486,16 +498,6 @@ orders estimated with \code{sig2ar}, to create the simulations of each vowel.
 The code performing these operations is listed in Appendix~\ref{code:vowels}.
 
 \subsection{Results}
-
-\begin{figure}[h]
-  \centering
-  \captionsetup{justification=centering}
-
-  \includegraphics[width=0.8\columnwidth]{pictures/raw_o_audio.pdf}
-  \caption{Fourier transform of the whistle signal}
-  \label{fig:rawaaudio}
-
-\end{figure}
 
 
 \subsection{Discussion}

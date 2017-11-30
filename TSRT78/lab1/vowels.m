@@ -17,24 +17,14 @@ aval = a(N1 + 1:end);
 oest = o(1:N1);
 oval = o(N1 + 1:end);
 
-% Determine the period of the signals by 
-% looking in their plots
-figure;
-subplot(2, 1, 1);
-plot(a); % title('Raw audio of a') 
-xlim([2000 3000])
-% One period is 78 samples
-
-subplot(2, 1, 2);
-plot(o); % title('Raw audio of o')
-xlim([2000 3000])
-print('./report/pictures/raw_o_audio.pdf', '-dpdf');
 % system('pdfcrop ./report/pictures/raw_o_audio.pdf ./report/pictures/raw_o_audio.pdf')
 % One period is 81 samples
 
 % Determing appropriate model order
 arordercv(aest, aval, 50);
+print('./report/pictures/wna.pdf', '-dpdf');
 arordercv(oest, oval, 50);
+print('./report/pictures/wno.pdf', '-dpdf');
 
 % For a-sound, order 10 should be used
 % For o-sound, order 12 should be used
@@ -112,8 +102,20 @@ compare(ioval, mo, 1)
 print('./report/pictures/compare_o.pdf', '-dpdf');
 % system('pdfcrop ./report/pictures/compare_o.pdf ./report/pictures/compare_o.pdf')
 
-%%
+%% Simulating the vowels
 
+% Determine the period of the signals by 
+% looking in their plots
+figure;
+subplot(2, 1, 1);
+plot(a); % title('Raw audio of a') 
+xlim([2000 3000])
+% One period is 78 samples
+
+subplot(2, 1, 2);
+plot(o); % title('Raw audio of o')
+xlim([2000 3000])
+print('./report/pictures/raw_o_audio.pdf', '-dpdf');
 
 % Pulse train for a
 Pa = 78;
