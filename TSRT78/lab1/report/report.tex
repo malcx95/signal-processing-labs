@@ -535,6 +535,12 @@ being modeled should be detrended before estimation. This means in this
 case subtracting the mean of the signal to make sure that the
 signal has $0$ mean.
 
+When estimating a model for speech it is also possible for the poles
+of the model to be outside of the unit circle, thus resulting in an
+unstable system. To handle this problem we can check the poles of the
+resulting model and move them inside the unit circle so that their
+distance to the circle is the same as before.
+
 Except for these small differences, the process of estimating an AR
 model for the signal is done as before. The model parameters together
 with the period and amplitude of the pulse train for each small part
