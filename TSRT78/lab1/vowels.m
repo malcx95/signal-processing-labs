@@ -110,7 +110,6 @@ figure;
 subplot(2, 1, 1);
 plot(a); % title('Raw audio of a') 
 xlim([2000 3000])
-% One period is 78 samples
 
 subplot(2, 1, 2);
 plot(o); % title('Raw audio of o')
