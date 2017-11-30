@@ -17,17 +17,12 @@ aval = a(N1 + 1:end);
 oest = o(1:N1);
 oval = o(N1 + 1:end);
 
-% system('pdfcrop ./report/pictures/raw_o_audio.pdf ./report/pictures/raw_o_audio.pdf')
 % One period is 81 samples
 
 % Determing appropriate model order
 arordercv(aest, aval, 50);
-print('./report/pictures/wna.pdf', '-dpdf');
 arordercv(oest, oval, 50);
-print('./report/pictures/wno.pdf', '-dpdf');
 
-% For a-sound, order 10 should be used
-% For o-sound, order 12 should be used
 Aorder = 10;
 Oorder = 12;
 
@@ -62,9 +57,6 @@ eacorr = conv(ea, ea(end:-1:1));
 figure;
 plot(eacorr);
 xlim([0 length(eacorr)])
-print('./report/pictures/acorr_a.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/acorr_a.pdf ./report/pictures/acorr_a.pdf')
-% title('Auto covariance R_{\epsilon\epsilon}(k) for a')
 
 % Compute O's residual
 eo = filter(Ao, Bo, oval);
@@ -78,9 +70,9 @@ eocorr = conv(eo, eo(end:-1:1));
 figure;
 plot(eocorr);
 xlim([0 length(eocorr)])
-print('./report/pictures/acorr_o.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/acorr_o.pdf ./report/pictures/acorr_o.pdf')
-% title('Auto covariance R_{\epsilon\epsilon}(k) for o')
+
+
+%% Prediction comparison
 
 iaest = iddata(aest, [], 1/fs);
 iaval = iddata(aval, [], 1/fs);
@@ -90,8 +82,6 @@ ma = ar(iaest, Aorder);
 
 figure
 compare(iaval, ma, 1)
-print('./report/pictures/compare_a.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/compare_a.pdf ./report/pictures/compare_a.pdf')
 
 ioest = iddata(oest, [], 1/fs);
 ioval = iddata(oval, [], 1/fs);
@@ -99,8 +89,6 @@ ioval = iddata(oval, [], 1/fs);
 mo = ar(ioest, Oorder);
 figure
 compare(ioval, mo, 1)
-print('./report/pictures/compare_o.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/compare_o.pdf ./report/pictures/compare_o.pdf')
 
 %% Simulating the vowels
 
@@ -108,13 +96,12 @@ print('./report/pictures/compare_o.pdf', '-dpdf');
 % looking in their plots
 figure;
 subplot(2, 1, 1);
-plot(a); % title('Raw audio of a') 
+plot(a);
 xlim([2000 3000])
 
 subplot(2, 1, 2);
-plot(o); % title('Raw audio of o')
+plot(o);
 xlim([2000 3000])
-print('./report/pictures/raw_o_audio.pdf', '-dpdf');
 
 % Pulse train for a
 Pa = 78;
@@ -139,7 +126,6 @@ figure
 w = (1/N*(fs))*[0:N-1];
 
 subplot(2, 1, 1)
-% w = (1/Nval*(fs))*[0:Nval-1];
 
 APRED = fft(apred);
 plot(w(1:floor(N/2)), abs(APRED(1:floor(N/2))));
@@ -147,13 +133,10 @@ plot(w(1:floor(N/2)), abs(APRED(1:floor(N/2))));
 subplot(2, 1, 2)
 A = fft(a);
 plot(w(1:floor(N/2)), abs(A(1:floor(N/2)))); 
-print('./report/pictures/apreddft.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/apreddft.pdf ./report/pictures/apreddft.pdf')
 
 figure
 
 subplot(2, 1, 1)
-% w = (1/Nval*(fs))*[0:Nval-1];
 
 OPRED = fft(opred);
 plot(w(1:floor(N/2)), abs(OPRED(1:floor(N/2))));
@@ -161,6 +144,4 @@ plot(w(1:floor(N/2)), abs(OPRED(1:floor(N/2))));
 subplot(2, 1, 2)
 O = fft(o);
 plot(w(1:floor(N/2)), abs(O(1:floor(N/2)))); 
-print('./report/pictures/opreddft.pdf', '-dpdf');
-% system('pdfcrop ./report/pictures/opreddft.pdf ./report/pictures/opreddft.pdf')
 
