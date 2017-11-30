@@ -8,6 +8,8 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{color}
+\usepackage{url}
+\usepackage{caption}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -200,8 +202,176 @@ of the estimated model. The closer these poles are to the unit circle
 the more pure the signal is.
 
 \subsection{Method}
+The first step of the laboratory was to record the sound of a person
+whistling. This was done using the program \textit{Audacity}
+\cite{audacity} at a sampling frequency of 8000 Hz. The recording was then
+cut to a length of 2 seconds that were chosen where the quality of the
+audio was best in the signal. Figure \ref{1:whistle_orig} shows a plot
+of the original recording of the whistle in the time domain.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/whistle_orig.pdf}
+  \caption{Original whistle recording}
+  \label{1:whistle_orig}
+
+\end{figure}
+
+The next step was to compute the signal's fourier transform and to
+inspect its frequency spectrum. This spectrum is shown in figure
+\ref{1:whistle_fft}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/whistle_fft.pdf}
+  \caption{Fourier transform of the whistle signal}
+  \label{1:whistle_fft}
+
+\end{figure}
+
+By inspecting the plot the dominant frequency of the whistle could be
+identified as approximately 1025 Hz. It can be seen in the graph that
+most of the signal's energy is concentrated around this frequency as
+expected. It can also be seen that there are some other unwanted
+frequency components further away from the dominant frequency.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/whistle_filter.pdf}
+  \caption{Frequency spectrum of the butterworth filter and the original
+  whistle signal}
+  \label{1:whistle_filter}
+\end{figure}
+
+These components were removed by filtering the signal with a butterworth
+filter of degree 5 with the bandpass between 800 Hz and 1200 Hz. The
+filtering was done with the \code{filtfilt} function in MATLAB which filters
+the signal without altering its phase spectrum. The frequency spectrum
+of the filter is shown above the original's signal spectrum in figure
+\ref{1:whistle_filter}. The frequency of the filtered signal is shown
+in figure \ref{1:whistle_clean} where it can be seen that the other
+frequency components have been removed.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/whistle_clean.pdf}
+  \caption{Fourier transform of the filtered whistle signal}
+  \label{1:whistle_clean}
+
+\end{figure}
+
+The total energy of the signal was calculated on the signal before filtering
+in the time domain using the formula
+
+\begin{equation}
+  E_{tot} = \sum_k{x^2(k)} \quad
+\end{equation}
+
+and in the frequency domain using the formula
+
+\begin{equation}
+  E_{tot} = \frac{1}{N}\sum_f{X^2(f)} \quad .
+\end{equation}
+
+The energy of the dominant frequency is calculated in the same way but
+using the signal after filtering, $\hat{x}(t)$, with
+
+\begin{equation}
+E_{tot} = \sum_k{\hat{x}^2(k)} \quad
+\end{equation}
+and
+\begin{equation}
+E_{tot} = \frac{1}{N}\sum_f{\hat{X}^2(f)} \quad .
+\end{equation}
+
+Now that the different measures of energy were calculated it was possible to
+calculate the harmonic distortion of the original signal according to
+\ref{1:hdist}. The energy in the frequency domain can also be calculated
+without filtering the signal, by using the samples in the frequency spectrum
+close to the dominant frequency and setting the rest to zero.
+
+Having previously removed the unwanted frequency components, the next
+step was to use the clean signal to estimate the model parameters.
+This was done in accordance to the theory explained in \ref{sec:whistletheory}
+by using the custom MATLAB function \code{arordercv}. The code for this
+function is shown in the appendix \ref{code:arordercv}. This function also
+returns the variance $\lambda_e$ the white noise should have in order to
+recreate the signal properly.
+
+After the model parameters were estimated it was time to generate a whistle
+sound with the model. To do this, white noise was generated with mean $0$
+and variance $\lambda_e$ using the function \code{randn}. This white noise
+was input through the model as in equation \ref{1:ar2y} and a new signal
+was generated. At this point it was possible to listen to the new generated
+signal and compare it to the original one. The frequency spectrum of the
+simulated sound is compared to that of the original sound in figure
+\ref{1:whistle_gen_freq}.
+
+Lastly the poles of the estimated model are computed with help of the
+MATLAB function \code{tf2zp} and their distance to the unit circle was
+analyzed.
+
+The implementation of all the steps just described is shown in appendix
+\ref{code:whistle}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/whistle_gen_freq.pdf}
+  \caption{Fourier transform of the original signal and of the generated signal}
+  \label{1:whistle_gen_freq}
+
+\end{figure}
+
 \subsection{Results}
+The dominant frequency of the original whistle sound was found by inspecting
+its frequency spectrum to be 1025 Hz. The same procedure showed that the
+dominant frequency of the generate signal was 1019 Hz.
+
+The total energy of the signal calculated in both the frequency domain and
+the time domain was found to be $2.45\cdot10^3$. The energy of the dominant
+frequency only was found to be $2.41\cdot10^3$ which is slightly lower
+than the total energy.
+
+Using these results to calculate the harmonic distortion gave a value
+of $0.0157$ in both time and frequency domain.
+
+Finally an analysis of the poles of the AR(2) showed that their distance
+to the unit circle was $2.9\cdot10^{-5}$.
+
 \subsection{Discussion}
+The results show that the dominant frequency of the generated signal
+differs slightly from that of the original signal. This difference can
+be attributed to the fact that the estimated model only gives an
+approximation of the original signal. It would require describind the
+model with a higher number of parameter or possibly with another type
+of model to get a better approximation. The difference in frequency
+in this case is though very small and would not be noticeable
+by a person when listening to the two signals.
+
+As expected since before the experiment, most of the signal's energy
+is concentrated in a small band around its dominant frequency. This
+is shown by the fact that the energy around the dominant frequency is
+only slightly lower than the total energy. This resulted as expected
+in a low harmonic distortion measure which means that the initial
+whistling recording was quite pure. This can also be concluded from
+the analysis of the poles of the model which have a distance to the
+unit circle that is very small.
+
+Ultimately it should be named that the generated signal resembled the
+original sound remarkably well with only very hard to notice
+differences. Therefore it can be concluded that an AR(2) model can
+be used to model the sound of a person whistling with results that
+are quite close to the original signal.
 
 \section{Assignment 2 --- Vowel}
 
@@ -342,9 +512,15 @@ implementation was then to be used to encode a short recorded sentence.
   Studentlitteratur, Lund,
   2010.
 
+\bibitem{audacity}
+  Audacity \\
+  \url{http://www.audacityteam.org},
+  2017-11-29
+
 \end{thebibliography}
 \newpage
 \begin{appendices}
+
     \section{Matlab code}
     \subsection{sig2ar.m}\label{code:sig2ar}
     \lstinputlisting[language=Matlab]{../sig2ar.m}
