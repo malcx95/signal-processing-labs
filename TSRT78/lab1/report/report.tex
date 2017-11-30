@@ -508,6 +508,7 @@ In this assignment, a simple version of the type of speech encoding used in GSM
 implementation was then to be used to encode a short recorded sentence.
 
 \subsection{Theory}
+\label{sub:vimtheory}
 
 The main difference between trying to model vowels and spoken language
 is the ammount of information that is contained within the signal.
@@ -541,7 +542,67 @@ of the signal is all that should be needed in order to generate a new
 signal that resembles the original one.
 
 \subsection{Method}
+As before, the first step of this assignment was to record the audio
+signal that would be analyzed and modeled. As with the other signals
+this recording was done in Audacity \cite{audacity} and then cut to
+the desired length. For the purpose of this assignment spoken language
+was needed, so the sentence ``Vim is much easier than notepad!'' was
+recorded. A graph of this recording is shown in Figure \ref{3:rawvim}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/vim_orig.pdf}
+  \caption{Recording of spoken language in the time domain}
+  \label{3:rawvim}
+
+\end{figure}
+
+The first thing that was done with the recording was to split it up into
+small parts of 160 samples each. Each part was then saved in a vector
+of such small signal segments.
+
+A loop was then implemented that iterated through all of the segments.
+Each iteration created a model for each of the segments. All the models
+and parameters needed to later recreate the signal were also saved in
+vectors.
+
+The same steps were performed on all parts each iteration. First the
+signal segment was detrended. Then an AR(8) model of the segment was
+estimated as before. When a model has been computed, its poles are
+analyzed and moved inside the unit circle if needed. Once the poles
+have been rectified, the segment was correlated with itself so that
+the needed amplitude and period of the pulse train could be computed
+as described in \ref{sub:vimtheory}. Because it was desired to listen
+to the recreated signal, at the end of each iteration a new signal
+segment was generated from each estimated model and put together into
+a new whole signal. This was done by creating the needed pulse train
+and inputing it into the estimated model. After the loop it was then
+possible to listen to the result of modeling the signal segments with
+AR(8) models. The generated audio signal is shown in Figure
+\ref{3:genvim}.
+
+\begin{figure}[h]
+  \centering
+  \captionsetup{justification=centering}
+
+  \includegraphics[width=0.8\columnwidth]{pictures/vim_gen.pdf}
+  \caption{Generated audio signal of the original spoken sentence}
+  \label{3:genvim}
+
+\end{figure}
+
+Once this was done, the whole process was repeated but the amplitude
+of all the pulse trains was set to $1$ and the resulting audio signal
+was played and compared to the previously generated one.
+
+Lastly, an experiment was done to vary the model order and listen to
+the result to see how the quality of the sound changed.
+
 \subsection{Results}
+
+
 \subsection{Discussion}
 
 \section{Conclusion}
