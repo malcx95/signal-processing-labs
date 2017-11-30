@@ -748,6 +748,13 @@ lowered the quality of the resulting signal as expected. Increasing the
 order instead did not result in any significant improvement of the
 quality and in some cases the audio even sounded worse.
 
+To generate the signals from the models require 10 different parameters.
+8 parameters for the model, the amplitude needed for the pulse train and
+the period of the pulse train. Since a segment of 160 samples can be
+modeled by only 10 numbers the factor by which that data has been
+compressed is $1/16$.
+
+
 \subsection{Discussion}
 The fact that it is hard to use the estimated models to generates the
 original signal is somewhat expected because of the complexity of the
