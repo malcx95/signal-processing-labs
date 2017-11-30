@@ -23,9 +23,12 @@ oval = o(N1 + 1:end);
 arordercv(aest, aval, 50);
 xlabel('Model order n')
 ylabel('W(n)')
+print('./report/pictures/wna.pdf', '-dpdf');
+
 arordercv(oest, oval, 50);
 xlabel('Model order n')
 ylabel('W(n)')
+print('./report/pictures/wno.pdf', '-dpdf');
 
 Aorder = 10;
 Oorder = 12;
@@ -62,6 +65,7 @@ figure;
 plot(eacorr);
 xlabel('k')
 ylabel('R_{\epsilon\epsilon}(k)')
+print('./report/pictures/acorr_a.pdf', '-dpdf');
 xlim([0 length(eacorr)])
 
 % Compute O's residual
@@ -77,6 +81,7 @@ figure;
 plot(eocorr);
 xlabel('k')
 ylabel('R_{\epsilon\epsilon}(k)')
+print('./report/pictures/acorr_o.pdf', '-dpdf');
 xlim([0 length(eocorr)])
 
 
@@ -90,6 +95,7 @@ ma = ar(iaest, Aorder);
 
 figure
 compare(iaval, ma, 1)
+print('./report/pictures/compare_a.pdf', '-dpdf');
 
 ioest = iddata(oest, [], 1/fs);
 ioval = iddata(oval, [], 1/fs);
@@ -97,6 +103,7 @@ ioval = iddata(oval, [], 1/fs);
 mo = ar(ioest, Oorder);
 figure
 compare(ioval, mo, 1)
+print('./report/pictures/compare_o.pdf', '-dpdf');
 
 %% Simulating the vowels
 
@@ -114,6 +121,7 @@ plot(o);
 xlabel('Sample k')
 ylabel('Amplitude')
 xlim([2000 3000])
+print('./report/pictures/raw_o_audio.pdf', '-dpdf');
 
 % Pulse train for a
 Pa = 78;
@@ -149,6 +157,7 @@ A = fft(a);
 plot(w(1:floor(N/2)), abs(A(1:floor(N/2)))); 
 xlabel('Frequency [Hz]')
 ylabel('Amplitude spectrum')
+print('./report/pictures/apreddft.pdf', '-dpdf');
 
 figure
 
@@ -164,4 +173,5 @@ O = fft(o);
 plot(w(1:floor(N/2)), abs(O(1:floor(N/2)))); 
 xlabel('Frequency [Hz]')
 ylabel('Amplitude spectrum')
+print('./report/pictures/opreddft.pdf', '-dpdf');
 
