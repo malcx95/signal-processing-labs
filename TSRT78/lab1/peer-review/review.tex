@@ -12,18 +12,140 @@
 
 %Set page size
 \usepackage{geometry}
-\geometry{margin=3cm}
+\geometry{margin=2cm}
 \usepackage{parskip} 
 %\pretitle{%	en bild för framsidan
 	%\begin{center}
 	%\LARGE
 %	\includegraphics[width=6cm]{python.png}\\[\bigskipamount]
 %}
-\title{Peer-review of report insert number here}
-\date{\today}
+\title{Peer-review of report 76}
 \renewcommand*\contentsname{Innehållsförteckning}
 \begin{document}
 \maketitle
-\section{Heading}
-Insert your roast here.
+
+\section{Overall comments}
+
+The report is easy to read and understand, and the MATLAB code is nicely structured and
+readable. However, the report is missing some important results, and some parts
+need clarification. These points points are described below, section by
+section.
+
+\section{Introduction}
+
+The introduction is rather brief. We personally would expect the introduction
+to contain some information of what the different parts of the study were.
+
+\section{Part 1 -- Whistle}
+
+\begin{itemize}
+    \item There is a formatting mistake on the word "kHz". You wrote $kH_z$, when
+it should be "kHz". 
+    \item Figure 1 has an incorrect label and grading of the horizontal axis.
+        It could be in seconds or samples, not Hz since we are looking in the
+        time-domain.
+\end{itemize}
+
+\subsection{Tasks and implementation}
+
+\begin{itemize}
+    \item There is a formatting mistake on "$H_dist$", it should be $H_{dist}$
+    \item Would be nice with some formulas, reference to the book or reference to
+    the code for how the parameters of the AR-model are estimated.
+    \item You wrote about "a knee in the graph". This is a bit unclear, it
+        would be better to show this graph or explain it in a different way.
+\end{itemize}
+
+\subsection{Results}
+\begin{itemize}
+    \item You wrote that the dominating frequency is [X, Y]. It doesn't
+        say anywhere what X and Y are.
+    \item As with Figure 1, Figure 3 has an incorrect label and grading of the horizontal axis.
+    \item You should write about what the dominating frequency was.
+    \item It would be nice with more discussion about what these results mean.
+\end{itemize}
+
+\section{Part 2 -- Vowel}
+
+\begin{itemize}
+    \item There is a formatting mistake on the word "kHz".
+\end{itemize}
+
+\subsection{Tasks and implementation}
+
+\begin{itemize}
+    \item It would be nice with a reference to Figure 5 when explaining how the
+    order of the model is determined.
+    \item You write about how you determine the whiteness of the residual, but
+        not why you would want to do that.
+    \item You briefly describe at the end a second validation method, but it
+        is not clear how and why the method works. Formulas, references to the
+        course book or to where this is done in the code would help clarify
+        what you mean.
+\end{itemize}
+
+\subsection{Results}
+
+\begin{itemize}
+    \item In Figure 6, you should change the labels of the
+        horizontal axis to "order", as in Figure 5.
+    \item It is not clear what Figure 7 and 8 are showing. 
+        More background information about this would be helpful.
+    \item You should present which model orders you selected, and
+        the results of the simulation of the vowels.
+    \item The meaning of the results should be discussed.
+    \item There is no reference to Equation 4.
+\end{itemize}
+
+\section{Speech}
+
+\begin{itemize}
+    \item You wrote that you divide the signal into 160 segments.
+        You were supposed to divide the signal into segments of 160
+        samples each.
+    \item You write about "theta values", without an explanation
+        of what these are. An equation or rewording would clarify this.
+    \item You write about finding the maximum of the covariance functions
+        of the residual errors,
+        but you should clarify that you don't consider values close
+        to the origin.
+    \item You should write about the task of setting the amplitude
+        of all pulses in the pulse train to 1, since you report
+        how this went in the results.
+\end{itemize}
+
+\subsection{Results}
+
+\begin{itemize}
+    \item You wrote that you set the amplitude of all segments to 1,
+        what is actually done is that you set the amplitude of the
+        input pulse trains to 1.
+    \item You wrote that the AR(8)-model needs 9 values, but it
+        only needs 8, since $a_0$ is always 1. You should therefore
+        check what you wrote about the compression factor.
+    \item You should include a discussion of that the result means.
+\end{itemize}
+
+\section{Matlab code}
+
+\begin{itemize}
+    \item There are lines in the MATLAB-code that are too long and
+        do not fit the page.
+    \item You should add references to your code in the text.
+\end{itemize}
+
+\section{Other comments}
+\begin{itemize}
+    \item Equation punctuation is not consistent in the report.
+        Sometimes you have a period at the end of the sentence
+        before an equation and sometimes you do not. We don't
+        think there is a rule about this, but you shoud at least
+        try to be consistent. In the course book they seem to prefer
+        to have the equations as a part of the text and then have the
+        period after the equations.
+    \item Some parts of the the text were hard to read and understand at
+        first read, and it contains a few minor formatting, spelling and
+        grammatical mistakes. A proof read of the text would help.
+\end{itemize}
+
 \end{document}
