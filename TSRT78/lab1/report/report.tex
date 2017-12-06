@@ -69,7 +69,7 @@ The focus of this task lay on implementing the modeling method and analyze
 the results.
 
 \section{Assignment 1 --- Whistle}
-Asignment 1 consisted of recording the sound of a person whistling and then
+Assignment 1 consisted of recording the sound of a person whistling and then
 modeling it.
 
 \subsection{Theory}
@@ -702,8 +702,7 @@ signal that resembles the original one.
 \subsection{Method}
 As before, the first step of this assignment was to record the audio
 signal that would be analyzed and modeled. As with the other signals
-this recording was done in Audacity \cite{audacity}, with 16-bit
-precision on each sample, and then cut to
+this recording was done in Audacity \cite{audacity} and then cut to
 the desired length. For the purpose of this assignment spoken language
 was needed, so the sentence ``Vim is much easier than notepad!'' was
 recorded. A graph of this recording is shown in Figure \ref{3:rawvim}.
@@ -778,15 +777,13 @@ lowered the quality of the resulting signal as expected. Increasing the
 order instead did not result in any significant improvement of the
 quality and in some cases the audio even sounded worse.
 
-Generating the signals from the models requires 10 different parameters;
+To generate the signals from the models require 10 different parameters.
 8 parameters for the model, the amplitude needed for the pulse train and
-the period of the pulse train. Since MATLAB stores these numbers as 64-bit
-floating point numbers, each of these numbers take up 4 times as much space
-as each sample in the recording, since these have 16-bit precision.
-Since a segment of 160 samples are modeled by 10 64-bit numbers, the
-factor by which that data has been
-compressed is $10\cdot4/160 = 1/4 = 25\%$.
-
+the period of the pulse train. Since a segment of 160 samples can be
+modeled by only 10 numbers the factor by which that data has been
+compressed is $10/160 = 1/16 = 6.25\%$. We assume the bit length of
+the numbers in the samples of the recorded audio and the model parameters
+are the same.
 
 \subsection{Discussion}
 The fact that it is hard to use the estimated models to generates the
