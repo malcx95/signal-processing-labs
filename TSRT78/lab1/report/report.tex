@@ -288,28 +288,22 @@ frequency components have been removed.
 
 The total energy of the signal was calculated on the signal before filtering
 in the time domain using the formula
-
 \begin{equation*}
     E_{\text{tot}} = \sum_k{x^2(k)} \quad
 \end{equation*}
-
 and in the frequency domain using the formula
-
 \begin{equation*}
     E_{\text{tot}} = \frac{1}{N}\sum_f{|X(f)|^2} \quad .
 \end{equation*}
-
 The energy of the dominant frequency is calculated in the same way but
 using the signal after filtering, $\hat{x}(t)$, with
-
 \begin{equation*}
-    E_{\text{dom}} = \sum_k{\hat{x}^2(k)} \quad
+    E_{\text{dom}} = \sum_k{\hat{x}^2(k)} \quad ,
 \end{equation*}
-and
+and in the frequency domain of the original signal with
 \begin{equation*}
-    E_{\text{dom}} = \frac{2}{N}\sum_{f \in I}{|\hat{X}(f)|^2} \quad
+    E_{\text{dom}} = \frac{1}{N}\sum_{f \in I}{|X(f)|^2} \quad ,
 \end{equation*}
-
 where $I = [f_{\text{dom}} - 200, f_{\text{dom}} + 200]$ and $f_{\text{dom}}$
 is the dominant
 frequency. The range $I$ was chosen to match the bandwidth of the butterworth
@@ -368,7 +362,7 @@ frequency only was found to be $2.41\cdot10^3$ which is slightly lower
 than the total energy.
 
 Using these results to calculate the harmonic distortion gave a value
-of $0.0157$ in both time and frequency domain.
+of $0.0157$ in the time domain and $0.0159$ in the frequency domain.
 
 Finally an analysis of the poles of the AR(2) showed that their distance
 to the unit circle was $2.9\cdot10^{-5}$.
