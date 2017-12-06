@@ -115,11 +115,7 @@ parameters $\theta$ so that the loss function
   \label{1:loss}
   V(\theta)  = \frac{1}{N}\sum_{t=1}^{N}(s(t) - y(t; \theta))^2
 \end{equation}
-<<<<<<< HEAD
-is as small as possible. For example, in the case of Equation \ref{1:ar2},
-=======
-to be as small as possible. For example, in the case of \eqref{1:ar2},
->>>>>>> ae2aa6ab181eab2f7b1adec854019221bfbe9801
+is as small as possible. For example, in the case of \eqref{1:ar2},
 $\theta$ would consist of the parameters $a_1$ and $a_2$. By defining
 the regression vector
 \begin{equation*}
@@ -736,7 +732,7 @@ signal segment was detrended. Then an AR(8) model of the segment was
 estimated as before. When a model has been computed, its poles are
 analyzed and poles outside the unit circle are moved inside if needed.
 This is to avoid an unstable system, and is done by inverting the amplitude
-of the poles, such that the new amplitude is equal to $1/A$, where $A$ 
+of the poles, such that the new amplitude is equal to $1/A$, where $A$
 is the old amplitude.
 
 Once the poles
@@ -787,7 +783,7 @@ Generating the signals from the models requires 10 different parameters;
 the period of the pulse train. Since MATLAB stores these numbers as 64-bit
 floating point numbers, each of these numbers take up 4 times as much space
 as each sample in the recording, since these have 16-bit precision.
-Since a segment of 160 samples are modeled by 10 64-bit numbers, the 
+Since a segment of 160 samples are modeled by 10 64-bit numbers, the
 factor by which that data has been
 compressed is $10\cdot4/160 = 1/4 = 25\%$.
 
