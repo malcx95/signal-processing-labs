@@ -35,7 +35,9 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
-\title{Lab1 --- Fundamental Signal Processing}
+\title{Lab 1 --- Fundamental Signal Processing}
+\author{Malcolm Vigren, \textit{malvi108} \\
+        David Pop, \textit{davpo041}}
 
 \maketitle
 
@@ -165,9 +167,7 @@ equations,
 \begin{equation*}
   \Phi_N^T\Phi_N\theta = \Phi_N^T Y_N \quad ,
 \end{equation*}
-
 where the solution is given by
-
 \begin{equation*}
   \hat{\theta}_N = \left( \frac{1}{N}\Phi_N^T\Phi_N \right)^{-1}
                    \left( \frac{1}{N}\Phi_N^T Y_N \right)
@@ -371,7 +371,7 @@ to the unit circle was $2.9\cdot10^{-5}$.
 The results show that the dominant frequency of the generated signal
 differs slightly from that of the original signal. This difference can
 be attributed to the fact that the estimated model only gives an
-approximation of the original signal. It would require describind the
+approximation of the original signal. It would require describing the
 model with a higher number of parameter or possibly with another type
 of model to get a better approximation. The difference in frequency
 in this case is though very small and would not be noticeable
@@ -575,7 +575,6 @@ the `a' and `o' models are shown in Figure \ref{fig:comparea} and Figure
     \centering
     \captionsetup{justification=centering}
     \includegraphics[width=0.8\columnwidth]{pictures/compare_a.pdf}
-    % CHANGED AFTER HAND IN
     \caption{Plot of the prediction comparison of the `a' model}
     \label{fig:comparea}
 \end{figure}
@@ -671,7 +670,8 @@ with a pulse train as input to the estimated model. Because the signal
 is divided into many small parts, it is now impossible to manually choose
 the amplitude and the period of the pulse train needed to generate to
 signal. These can be found automatically be analyzing the autocorrelation
-of the small part that is being modeled. The time delay of the first
+of the residual error function of the small part that is being modeled.
+The time delay of the first
 residual peak in this function will give the approximate period of the
 signal and squared root of its amplitude will be the needed amplitude of
 the pulse train.
@@ -684,8 +684,7 @@ signal has $0$ mean.
 When estimating a model for speech it is also possible for the poles
 of the model to be outside of the unit circle, thus resulting in an
 unstable system. To handle this problem we can check the poles of the
-resulting model and move them inside the unit circle so that their
-distance to the circle is the same as before.
+resulting model and move them inside the unit circle.
 
 Except for these small differences, the process of estimating an AR
 model for the signal is done as before. The model parameters together
@@ -771,11 +770,11 @@ lowered the quality of the resulting signal as expected. Increasing the
 order instead did not result in any significant improvement of the
 quality and in some cases the audio even sounded worse.
 
-To generate the signals from the models require 10 different parameters.
+Generating the signals from the models requires 10 different parameters.
 8 parameters for the model, the amplitude needed for the pulse train and
 the period of the pulse train. Since a segment of 160 samples can be
 modeled by only 10 numbers the factor by which that data has been
-compressed is $10/160 = 1/16 = 6.25\%$. We assume the bit length of
+compressed is $10/160 = 1/16 = 6.25\%$. We assume that the bit length of
 the numbers in the samples of the recorded audio and the model parameters
 are the same.
 
