@@ -40,7 +40,7 @@
 \maketitle
 
 \section{Introduction}
-This report describes a laboratory performed at Linköping university as an
+This report describes a lab performed at Linköping University as an
 assignment in a course in digital signal processing. In the context of
 digital signal processing, it is possible to create a model of a given
 signal that can be used later on to recreate the original signal to some
@@ -48,10 +48,10 @@ extent. These models can usually be described with a number of parameters
 that is much lower that the number of samples in the actual signal. Because
 the recreated signal would just be an approximation of the original signal
 it is important to analyze how well the model describes the signal as well
-as what can be done to improve the model. The purpose of the laboratory was
+as what can be done to improve the model. The purpose of the lab was
 to experiment with how this might be done in practice.
 
-The laboratory consisted of three parts, each with different tasks and
+The lab consisted of three parts, each with different tasks and
 goals.
 
 The first assignment was to model the sound of a person whistling and the
@@ -63,7 +63,7 @@ vowels and then recreate the sounds. The main task here was to estimate
 the model order needed for each sound and the validate the resulting
 sounds against the original sounds.
 
-The last part of the laboratory consisted of recording and modeling of
+The last part of the lab consisted of recording and modeling of
 spoken language in a similar way as it would be done in GSM communication.
 The focus of this task lay on implementing the modeling method and analyze
 the results.
@@ -115,7 +115,7 @@ parameters $\theta$ so that the loss function
   \label{1:loss}
   V(\theta)  = \frac{1}{N}\sum_{t=1}^{N}(s(t) - y(t; \theta))^2
 \end{equation}
-to be as small as possible. For example, in the case of Equation \ref{1:ar2},
+is as small as possible. For example, in the case of Equation \ref{1:ar2},
 $\theta$ would consist of the parameters $a_1$ and $a_2$. By defining
 the regression vector
 \begin{equation}
@@ -201,9 +201,26 @@ Another way to measure the purity of the signal is to look at the poles
 of the estimated model. The closer these poles are to the unit circle
 the more pure the signal is.
 
+The dominating frequency of a signal is possible to estimate in two
+different ways. One non-parametric method and one parametric method.
+In the non-parametric method, the fourier transform of the signal is
+computed. Plotting the amplitude of the fourier spectrum, the dominating
+frequency can be identified by the highest peak in the graph.
+
+In the parametric method, an estimated model of the signal can be used to
+estimate the dominating frequency. It is possible to analyze the poles of the
+model to find an estimate of the dominant frequency. Because the signal in the
+time domain is expected to be real, it is expected that the poles of the
+model come in pairs of conjugate poles. Each such pair corresponds to a
+peak in the signal's amplitude spectrum and the peak's position is given
+by the phase of the poles. Also the highest peak should be given by the pair
+of poles that is closest to the unit circle. Thus the dominating frequency can
+be determined by analyzing the phase of the pair of poles that is closest
+to the unit circle.
+
 \subsection{Method}
 \label{sub:whistlemethod}
-The first step of the laboratory was to record the sound of a person
+The first step of the lab was to record the sound of a person
 whistling. This was done using the program \textit{Audacity}
 \cite{audacity} at a sampling frequency of 8000 Hz. The recording was then
 cut to a length of 2 seconds that were chosen where the quality of the
@@ -318,7 +335,10 @@ simulated sound is compared to that of the original sound in Figure
 
 Lastly the poles of the estimated model are computed with help of the
 MATLAB function \code{tf2zp} and their distance to the unit circle was
-analyzed.
+analyzed. Also by analyzing the poles' phase, as explained in Section
+\ref{sec:whistletheory}, the dominant frequency of the signal given by
+the model could be determined. This could also be done non-parametrically
+by inspecting the amplitude spectrum of the generated signal.
 
 The implementation of all the steps just described is shown in appendix
 \ref{code:whistle}.
@@ -335,8 +355,8 @@ The implementation of all the steps just described is shown in appendix
 
 \subsection{Results}
 The dominant frequency of the original whistle sound was found by inspecting
-its frequency spectrum to be 1025 Hz. The same procedure showed that the
-dominant frequency of the generate signal was 1019 Hz.
+its frequency spectrum to be 1025 Hz. Both parametric and non-parametric
+methods showed that the dominant frequency of the generated signal is 1019 Hz.
 
 The total energy of the signal calculated in both the frequency domain and
 the time domain was found to be $2.45\cdot10^3$. The energy of the dominant
