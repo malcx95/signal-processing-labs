@@ -66,8 +66,9 @@ print('whistle_clean.pdf', '-dpdf');
 % subplot(2, 1, 2);
 % plot(wnorm, abs(Y)); title('DFT of Y')
 
+
 Edom = sum(y.^2)
-Edomfreq = sum(abs(Y).^2)/N
+Edomfreq = 2*sum(abs(X(1600:2400)).^2)/N
 
 %%
 
